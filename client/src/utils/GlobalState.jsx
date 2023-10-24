@@ -7,8 +7,6 @@ const { Provider } = SiteContext;
 const SiteProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useReducer(reducer, {
     products: [],
-    cart: [],
-    cartOpen: false,
     categories: [],
     currentCategory: '',
   });
