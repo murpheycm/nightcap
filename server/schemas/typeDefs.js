@@ -1,10 +1,5 @@
 const typeDefs = `
-  type Category {
-    _id: ID
-    name: String
-  }
-
-  type Product {
+  type Cocktail {
     _id: ID
     name: String
     description: String
@@ -20,6 +15,15 @@ const typeDefs = `
     lastName: String
     email: String
     orders: [Order]
+  }
+
+  type Comment {
+    _id: ID
+    name: String
+  }
+
+  type Reaction {
+    _id: ID
   }
 
   type Auth {
