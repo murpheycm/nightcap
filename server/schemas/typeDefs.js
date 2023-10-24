@@ -1,52 +1,132 @@
-const typeDefs = `
-  type Cocktail {
-    _id: ID
-    name: String
-    description: String
-    image: String
-    quantity: Int
-    price: Float
-    category: Category
-  }
+const { gql } = require("apollo-server-express");
 
-  type User {
-    _id: ID
-    firstName: String
-    lastName: String
-    email: String
-    orders: [Order]
-  }
+const typeDefs = gql`
+    User {
+        _id: ID!
+        username: String!
+        email: String!
+        profile: Profile
+        reviews: [Review]
+    }
 
-  type Comment {
-    _id: ID
-    name: String
-  }
+    Business {
+        _id: ID!
+        name: String!
+        email: String!
+        profile: BusinessProfile
+        reviews: [Review]
+    }
 
-  type Reaction {
-    _id: ID
-  }
+    Profile {
+        _id: ID!
+        user: User!
+        firstName: String
+        lastName: String
+        bio: String
+        profileImage: String
+    }
 
-  type Auth {
-    token: ID
-    user: User
-  }
+    BusinessProfile {
+        _id: ID!
+        user: BusinessUser!
+        bio: String
+        profileImage: String
+        website: String
+        location: String
+        reviews: [Review]
+    }
 
-  type Query {
-    categories: [Category]
-    products(category: ID, name: String): [Product]
-    product(_id: ID!): Product
-    user: User
-    order(_id: ID!): Order
-    checkout(products: [ID]!): Checkout
-  }
+    Review {
+        _id: ID!
+        user: User!
+        cocktail: Cocktail!
+        title: String!
+        text: String!
+        image: String
+        comments: [Comment]
+        reactions: [Reaction]
+        createdAt: String!
+    }
 
-  type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
-    updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
-    login(email: String!, password: String!): Auth
-  }
+    Cocktail {
+        _id: ID!
+        name: String!
+        description: String
+        ingredients: [String]
+        allergens: [String]
+        tags: [Tag]
+    }
+
+    Image {
+        _id: ID!
+        url: String!
+    }
+
+    Tag {
+        _id: ID!
+        name: String!
+    }
+
+    type Comment {
+        _id: ID!
+        review: Review!
+        user: User!
+        comment: String!
+        createdAt: String!
+    }
+    
+    type Reaction {
+        _id: ID!
+        review: Review!
+    }
+
+    type Follower {
+        _id: ID!
+        follower_id: User
+        following_id: User
+    }
+
+    type Auth {
+        token: ID!
+        user: User
+    }
+
+    type Query {
+        user: User
+        users: [User]
+        cocktails: [Cocktail]
+        cocktail(_id: ID!): Cocktail
+        reviews: [Review]
+        review(_id: ID!): Review
+        images: [Image]
+        image(_id: ID!): Image
+    }
+
+    type Mutation {
+        addUser(username: String!, email: String!, password: String!): Auth
+
+        addBusiness(name: String!, email: String!, password: String!): Auth
+
+        login(email: String!, password: String!): Auth
+        
+        addProfile(firstName: String!, lastName: String, bio: String, profileImage: String): Profile
+
+        addBusinessProfile(bio: String, profileImage: String, website: String, location: String): BusinessProfile
+
+        addCocktail(name: String!, description: String, ingredients: [String], allergens: [String]): Cocktail
+
+        addImage(url: String!): Image
+
+        addReview(title: String!, text: String!): Review
+
+        deleteReview(_id: ID!): Review
+
+        addTag(name: String!): Tag
+
+        addComment(comment: String!): Comment
+
+        addReaction(reaction: String!): Reaction       
+    }
 `;
 
 module.exports = typeDefs;
