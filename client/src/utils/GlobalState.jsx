@@ -1,10 +1,10 @@
 import { createContext, useContext, useReducer } from "react";
 import { reducer } from './reducers'
 
-const StoreContext = createContext();
-const { Provider } = StoreContext;
+const SiteContext = createContext();
+const { Provider } = SiteContext;
 
-const StoreProvider = ({ value = [], ...props }) => {
+const SiteProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useReducer(reducer, {
     products: [],
     cart: [],
@@ -16,8 +16,8 @@ const StoreProvider = ({ value = [], ...props }) => {
   return <Provider value={[state, dispatch]} {...props} />;
 };
 
-const useStoreContext = () => {
-  return useContext(StoreContext);
+const useSiteContext = () => {
+  return useContext(SiteContext);
 };
 
-export { StoreProvider, useStoreContext };
+export { SiteProvider, useSiteContext };
