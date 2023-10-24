@@ -4,12 +4,14 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App.jsx';
 import Home from './pages/Home';
-import Detail from './pages/Detail';
-import NoMatch from './pages/NoMatch';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Success from './pages/Success';
-import OrderHistory from './pages/OrderHistory';
+import Review from './pages/Review';
+import Profile from './pages/Profile';
+import Uploads from './pages/Uploads';
+import Cocktails from './pages/Cocktails';
+import Map from './pages/Map';
+import Business from './pages/Business';
 
 const router = createBrowserRouter([
   {
@@ -27,14 +29,26 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <Signup />
       }, {
-        path: '/success',
-        element: <Success />
+        path: '/profile',
+        element: <Profile />
       }, {
-        path: '/orderHistory',
-        element: <OrderHistory />
+        path: '/cocktails',
+        element: <Cocktails />
       }, {
-        path: '/products/:id',
-        element: <Detail />
+        path: '/cocktails/:id',
+        element: <Cocktails />
+      }, {
+        path: '/uploads/:id',
+        element: <Uploads />
+      }, {
+        path: '/map',
+        element: <Map />
+      }, {
+        path: '/reviews/:id',
+        element: <Review />
+      }, {
+        path: '/business/:id',
+        element: <Business />
       }
     ]
   }
