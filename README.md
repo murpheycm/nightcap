@@ -85,6 +85,7 @@ location
 description
 ## map page
 
+## merch for purchasing
 
 # User Story
 
