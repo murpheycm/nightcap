@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ImageUpload from "../components/uploadPicture";
 import TextField from "@mui/material/TextField";
-import List from "../components/cocktailSearch";
-import Select from "react-select";
+// import List from "../components/cocktailSearch";
+// import Select from "react-select";
 
 function UploadCocktail() {
   const [cocktailData, setCocktailData] = useState({
