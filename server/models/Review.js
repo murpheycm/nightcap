@@ -50,6 +50,8 @@ reviewSchema.post("save", function (doc, next) {
   next();
 });
 
-const Review = model("Review", reviewSchema);
+// const Review = model("Review", reviewSchema);
 
-module.exports = Review;
+// module.exports = Review;
+
+module.exports = reviewSchema;
