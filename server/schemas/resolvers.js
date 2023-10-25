@@ -1,141 +1,193 @@
-const { User, Product, Category, Order } = require('../models');
-const { signToken, AuthenticationError } = require('../utils/auth');
-const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const { User, Profile, Review, Cocktail, Image, Tag, Comment } = require("../models");
+const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    categories: async () => {
-      return await Category.find();
-    },
-    products: async (parent, { category, name }) => {
-      const params = {};
-
-      if (category) {
-        params.category = category;
-      }
-
-      if (name) {
-        params.name = {
-          $regex: name
-        };
-      }
-
-      return await Product.find(params).populate('category');
-    },
-    product: async (parent, { _id }) => {
-      return await Product.findById(_id).populate('category');
-    },
     user: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
-        });
+        const userData = await User.findOne({ _id: context.user._id })
+          .select("-__v -password")
+          .populate("profile")
+          .populate("reviews");
 
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
-
-        return user;
+        return userData;
       }
-
       throw AuthenticationError;
     },
-    order: async (parent, { _id }, context) => {
+    users: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
-        });
-
-        return user.orders.id(_id);
+        const userData = await User.find({}).select("-__v -password");
+        return userData;
       }
-
       throw AuthenticationError;
     },
-    checkout: async (parent, args, context) => {
-      const url = new URL(context.headers.referer).origin;
-      const order = new Order({ products: args.products });
-      const line_items = [];
-
-      const { products } = await order.populate('products');
-
-      for (let i = 0; i < products.length; i++) {
-        const product = await stripe.products.create({
-          name: products[i].name,
-          description: products[i].description,
-          images: [`${url}/images/${products[i].image}`]
-        });
-
-        const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: products[i].price * 100,
-          currency: 'usd',
-        });
-
-        line_items.push({
-          price: price.id,
-          quantity: 1
-        });
+    cocktails: async (parent, args, context) => {
+      if (context.user) {
+        const cocktailData = await Cocktail.find({}).select("-__v -password");
+        return cocktailData;
       }
-
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items,
-        mode: 'payment',
-        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/`
-      });
-
-      return { session: session.id };
-    }
+      throw AuthenticationError;
+    },
+    cocktail: async (parent, { _id }, context) => {
+      if (context.user) {
+        const cocktailData = await Cocktail.findOne({ _id })
+          .select("-__v -password")
+          .populate("reviews");
+        return cocktailData;
+      }
+      throw AuthenticationError;
+    },
+    reviews: async (parent, args, context) => {
+      if (context.user) {
+        const reviewData = await Review.find({}).select("-__v -password");
+        return reviewData;
+      }
+      throw AuthenticationError;
+    },
+    review: async (parent, { _id }, context) => {
+      if (context.user) {
+        const reviewData = await Review.findOne({ _id })
+          .select("-__v -password")
+          .populate("images")
+          .populate("comments")
+          .populate("reactions");
+        return reviewData;
+      }
+      throw AuthenticationError;
+    },
+    images: async (parent, args, context) => {
+      if (context.user) {
+        const imageData = await Image.find({}).select("-__v -password");
+        return imageData;
+      }
+      throw AuthenticationError;
+    },
+    image: async (parent, { _id }, context) => {
+      if (context.user) {
+        const imageData = await Image.findOne({ _id }).select("-__v -password");
+        return imageData;
+      }
+      throw AuthenticationError;
+    },
   },
+
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
 
-      return { token, user };
+      return { user, token };
     },
-    addOrder: async (parent, { products }, context) => {
-      if (context.user) {
-        const order = new Order({ products });
-
-        await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
-
-        return order;
-      }
-
-      throw AuthenticationError;
-    },
-    updateUser: async (parent, args, context) => {
-      if (context.user) {
-        return await User.findByIdAndUpdate(context.user._id, args, { new: true });
-      }
-
-      throw AuthenticationError;
-    },
-    updateProduct: async (parent, { _id, quantity }) => {
-      const decrement = Math.abs(quantity) * -1;
-
-      return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
+    addBusiness: async (parent, args) => {
+        const business = await Business.create(args);
+        const token = signToken(business);
+        return { business, token };
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
       if (!user) {
-        throw AuthenticationError;
+        throw new AuthenticationError(
+          "Email or Password is incorrect. Please try again."
+        );
       }
 
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        throw AuthenticationError;
+        throw new AuthenticationError(
+          "Email or Password is incorrect. Please try again."
+        );
       }
 
       const token = signToken(user);
-
-      return { token, user };
-    }
-  }
+      return { user, token };
+    },
+    addProfile: async (parent, { addProfile }, context) => {
+        if (context.user) {
+            const profileData = await Profile.create(addProfile);
+            return profileData;
+        }
+        throw AuthenticationError;
+    },
+    addBusinessProfile: async (parent, { addBusinessProfile }, context) => {
+        if (context.user) {
+            const businessProfileData = await BusinessProfile.create(addBusinessProfile);
+            return businessProfileData;
+        }
+        throw AuthenticationError;
+    },
+    addCocktail: async (parent, { addCocktail }, context) => {
+      if (context.user) {
+        const cocktailData = await Cocktail.create(addCocktail);
+        return cocktailData;
+      }
+      throw AuthenticationError;
+    },
+    addImage: async (parent, { addImage }, context) => {
+      if (context.user) {
+        // const imageData = await Image.create(addImage);
+        // return imageData;
+        // this may need to be updated to handle firebase
+        const reviewData = await Review.findByIdAndUpdate(
+          { _id: addImage.reviewId },
+          { $push: { images: addImage } },
+          { new: true }
+        );
+        return reviewData;
+      }
+      throw AuthenticationError;
+    },
+    addReview: async (parent, { addReview }, context) => {
+      if (context.user) {
+        const userData = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $push: { reviews: addReview } },
+          { new: true }
+        );
+        return userData;
+      }
+      throw AuthenticationError;
+    },
+    deleteReview: async (parent, { _id }, context) => {
+      if (context.user) {
+        const userData = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { reviews: { _id } } },
+          { new: true }
+        );
+        return userData;
+      }
+      throw AuthenticationError;
+    },
+    addTag: async (parent, { addTag }, context) => {
+      if (context.user) {
+        // const tagData = await Tag.create(addTag);
+        // return tagData;
+        const cocktailData = await Cocktail.findByIdAndUpdate(
+            { _id: addTag.cocktailId },
+            { $push: { tags: addTag } },
+            { new: true }
+        );
+        return cocktailData;
+      }
+      throw AuthenticationError;
+    },
+    addComment: async (parent, { addComment, _id }, context) => {
+        if (context.user) {
+            const commentData = await Comment.create(addComment);
+            return commentData;
+        }
+        throw AuthenticationError;
+    },
+    addReaction: async (parent, { addReaction, _id }, context) => {
+        if (context.user) {
+            const reactionData = await Reaction.create(addReaction);
+            return reactionData;
+        }
+        throw AuthenticationError;
+    },
+  },
 };
 
 module.exports = resolvers;
