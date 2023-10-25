@@ -1,5 +1,5 @@
 const { Schema } = require('mongoose');
-
+// needs a ref to the cocktail model
 const tagSchema = new Schema({
     name: {
         type: String,
