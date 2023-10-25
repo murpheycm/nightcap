@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const reviewSchema = require('./Review');
+const Review = require('./Review');
 const tagSchema = require('./Tag');
 
 const cocktailSchema = new Schema({
@@ -14,7 +14,7 @@ const cocktailSchema = new Schema({
     },
     ingredients: [String],
     allergens: [String],
-    reviews: [reviewSchema],
+    reviews: [Review],
     tags: [tagSchema],
 });
 

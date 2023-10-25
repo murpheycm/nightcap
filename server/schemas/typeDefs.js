@@ -1,7 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-    User {
+    type User {
         _id: ID!
         username: String!
         email: String!
@@ -9,7 +9,7 @@ const typeDefs = gql`
         reviews: [Review]
     }
 
-    Business {
+    type Business {
         _id: ID!
         name: String!
         email: String!
@@ -17,7 +17,7 @@ const typeDefs = gql`
         reviews: [Review]
     }
 
-    Profile {
+    type Profile {
         _id: ID!
         user: User!
         firstName: String
@@ -26,9 +26,9 @@ const typeDefs = gql`
         profileImage: String
     }
 
-    BusinessProfile {
+    type BusinessProfile {
         _id: ID!
-        user: BusinessUser!
+        user: Business!
         bio: String
         profileImage: String
         website: String
@@ -36,7 +36,7 @@ const typeDefs = gql`
         reviews: [Review]
     }
 
-    Review {
+    type Review {
         _id: ID!
         user: User!
         cocktail: Cocktail!
@@ -48,7 +48,7 @@ const typeDefs = gql`
         createdAt: String!
     }
 
-    Cocktail {
+    type Cocktail {
         _id: ID!
         name: String!
         description: String
@@ -57,12 +57,12 @@ const typeDefs = gql`
         tags: [Tag]
     }
 
-    Image {
+    type Image {
         _id: ID!
         url: String!
     }
 
-    Tag {
+    type Tag {
         _id: ID!
         name: String!
     }
