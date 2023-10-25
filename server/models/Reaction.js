@@ -6,6 +6,19 @@ const reactionSchema = new Schema({
     ref: "Review",
     required: true,
   },
-});
+  heartEyesCount: {
+    type: Number,
+  },
+  angryFaceCount: {
+    type: Number,
+  },
+},
+{
+  toJSON: {
+    virtuals: true,
+  },
+  id: false,
+}
+);
 
 module.exports = reactionSchema;

@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const commentSchema = require("./Comment");
-const reactionSchema = require("./Reaction");
+// const reactionSchema = require("./Reaction");
 // const imageSchema = require("./Image");
 
 const reviewSchema = new Schema({
@@ -27,7 +27,13 @@ const reviewSchema = new Schema({
     type: String,
   },
   comments: [commentSchema],
-  reactions: [reactionSchema],
+  thumbUpCount: {
+    type: Number,
+  },
+  thumbDownCount: {
+    type: Number,
+  },
+  // reactions: [reactionSchema],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -39,6 +45,10 @@ const reviewSchema = new Schema({
   }
 );
 
+// if we need a count of comments:
+reviewSchema.virtual('commentsCount').get(function () {
+  return this.comments.length;
+});
 // not sure if this is the right way to do this yet...
 // trying to push review to both user and cocktail models after review is created
 reviewSchema.post("save", function (doc, next) {
@@ -49,6 +59,7 @@ reviewSchema.post("save", function (doc, next) {
   const user = User.findByIdAndUpdate(doc.user, { $addToSet: { reviews: doc } });
   next();
 });
+
 
 // const Review = model("Review", reviewSchema);
 
