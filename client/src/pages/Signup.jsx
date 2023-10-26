@@ -10,20 +10,27 @@ function Signup(props) {
     password: '', 
     firstName: '', 
     lastName: '',
-    username: '',  // Add a field for the username
+    username: '',
+    confirmPassword: '',
   });
-  const [showPassword, setShowPassword] = useState(false); // Add a state for showing/hiding the password
+  const [showPassword, setShowPassword] = useState(false);
   const [addUser] = useMutation(ADD_USER);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+
+    if (formState.password !== formState.confirmPassword) {
+        alert('Password and Confirm Password must match.');
+        return;
+    }
+
     const mutationResponse = await addUser({
       variables: {
         email: formState.email,
         password: formState.password,
         firstName: formState.firstName,
         lastName: formState.lastName,
-        username: formState.username,  // Include username in the mutation variables
+        username: formState.username, 
       },
     });
     const token = mutationResponse.data.addUser.token;
@@ -53,7 +60,7 @@ function Signup(props) {
           <input
             placeholder="First"
             name="firstName"
-            type="text"  // Set the type to 'text' for first name
+            type="text"
             id="firstName"
             onChange={handleChange}
           />
@@ -63,7 +70,7 @@ function Signup(props) {
           <input
             placeholder="Last"
             name="lastName"
-            type="text"  // Set the type to 'text' for last name
+            type="text"
             id="lastName"
             onChange={handleChange}
           />
@@ -73,7 +80,7 @@ function Signup(props) {
           <input
             placeholder="Username"
             name="username"
-            type="text"  // Set the type to 'text' for username
+            type="text"
             id="username"
             onChange={handleChange}
           />
@@ -89,12 +96,25 @@ function Signup(props) {
           />
         </div>
         <div className="flex-row space-between my-2">
-          <label htmlFor="pwd">Password:</label>
+          <label htmlFor="password">Password:</label>
           <input
             placeholder="******"
             name="password"
-            type={showPassword ? 'text' : 'password'} // Toggle between 'text' and 'password'
-            id="pwd"
+            type={showPassword ? 'text' : 'password'}
+            id="password"
+            onChange={handleChange}
+          />
+          <button type="button" onClick={toggleShowPassword}>
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
+        </div>
+        <div className="flex-row space-between my-2">
+          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <input
+            placeholder="******"
+            name="confirmPassword"
+            type={showPassword ? 'text' : 'password'}
+            id="confirmPassword"
             onChange={handleChange}
           />
           <button type="button" onClick={toggleShowPassword}>

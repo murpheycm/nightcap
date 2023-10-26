@@ -84,3 +84,25 @@ export const ADD_REVIEW = gql`
     }
   }
 `;
+
+export const ADD_COMMENT = gql`
+  mutation addComment($comment: String!) {
+    addComment(comment: $comment) {
+      token
+      user {
+        _id
+      }
+    }
+  }
+`;
+
+export const ADD_CHEERS = gql`
+  mutation addCheers($cheers: String!) {
+    addCheers(cheers: $cheers) {
+      token
+      user {
+        _id
+      }
+    }
+  }
+`;
