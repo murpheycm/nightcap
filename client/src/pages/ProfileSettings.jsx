@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ImageUpload from "../components/uploadPicture";
+import UploadPicture from "../components/uploadPicture";
 
 function UploadProfile() {
   // Define user data using state
@@ -24,7 +24,7 @@ function UploadProfile() {
         <div className="profile-settings">
           <div className="profile-picture">
             <h3>Profile Picture</h3>
-            <ImageUpload />
+            <UploadPicture />
             {/* Add additional profile picture-related content here */}
           </div>
 
