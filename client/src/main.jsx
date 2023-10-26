@@ -12,7 +12,7 @@ import Map from './pages/Map';
 import PostReview from './pages/PostReview';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
-import Profile from './pages/Profile';
+// import Profile from './pages/Profile';
 import ProfileSettings from './pages/ProfileSettings';
 import PostReview from './pages/PostReview';
 import UploadCocktail from './pages/UploadCocktail';
