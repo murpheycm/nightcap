@@ -6,9 +6,9 @@ const { Provider } = SiteContext;
 
 const SiteProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useReducer(reducer, {
-    products: [],
-    categories: [],
-    currentCategory: '',
+    cocktails: [],
+    ingredients: [],
+    comments: [],
   });
 
   return <Provider value={[state, dispatch]} {...props} />;
