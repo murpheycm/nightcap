@@ -1,69 +1,132 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
-export const QUERY_PRODUCTS = gql`
-  query getProducts($category: ID) {
-    products(category: $category) {
+export const QUERY_USER = gql`
+  query getUser($username: String!) {
+    user(username: $username) {
       _id
-      name
-      description
-      price
-      quantity
-      image
-      category {
+      username
+      email
+      profile {
         _id
+        firstName
+        lastName
+        bio
+        profileImage
+      }
+      reviews {
+        _id
+        title
+        text
+        image
+        thumbUpCount
+        thumbDownCount
+        comments {
+          _id
+          comment
+          createdAt
+        }
       }
     }
   }
 `;
 
-export const QUERY_CHECKOUT = gql`
-  query getCheckout($products: [ID]!) {
-    checkout(products: $products) {
-      session
+// left this super simple for now - if we wanted a simple list of all users
+export const QUERY_ALL_USERS = gql`
+  query getUsers {
+    users {
+      _id
+      username
+      profile {
+        profileImage
+      }
     }
   }
 `;
 
-export const QUERY_ALL_PRODUCTS = gql`
-  {
-    products {
+export const QUERY_REVIEW = gql`
+  query getReview($reviewId: ID!) {
+    review(reviewId: $reviewId) {
       _id
-      name
-      description
-      price
-      quantity
-      category {
+      user {
+        _id
+        username
+      }
+      cocktail {
+        _id
+        name
+      }
+      title
+      text
+      image
+      thumbUpCount
+      thumbDownCount
+      comments {
+        _id
+        comment
+        createdAt
+      }
+    }
+  }
+}`;
+
+export const QUERY_ALL_REVIEWS = gql`
+  query getReviews {
+    reviews {
+      _id
+      title
+      createdAt
+      user {
+        _id
+        username
+      }
+      cocktail {
+        _id
         name
       }
     }
   }
 `;
 
-export const QUERY_CATEGORIES = gql`
-  {
-    categories {
+export const QUERY_ALL_REVIEWS_BY_COCKTAIL = gql`
+  query getReviewsByCocktail($cocktailId: ID!) {
+    reviews(cocktailId: $cocktailId) {
       _id
-      name
+      title
+      createdAt
+      user {
+        _id
+        username
+      }
+      cocktail {
+        _id
+        name
+      }
     }
   }
 `;
 
-export const QUERY_USER = gql`
-  {
-    user {
-      firstName
-      lastName
-      orders {
+export const QUERY_ALL_COCKTAILS = gql`
+  query getCocktails {
+    cocktails {
+      _id
+      name
+      description
+      ingredients
+    }
+  }
+`;
+
+export const QUERY_COCKTAIL = gql`
+  query getCocktail($cocktailId: ID!) {
+    cocktail(cocktailId: $cocktailId) {
+      _id
+      name
+      description
+      ingredients
+      allergens
+      tags {
         _id
-        purchaseDate
-        products {
-          _id
-          name
-          description
-          price
-          quantity
-          image
-        }
+        name
       }
     }
   }
