@@ -83,23 +83,27 @@ const resolvers = {
         const token = signToken(business);
         return { business, token };
     },
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
-
+    login: async (parent, { identifier, password }) => {
+      let user;
+    
+      // Check if the provided identifier is a valid email address
+      if (validator.isEmail(identifier)) {
+        user = await User.findOne({ email: identifier });
+      } else {
+        // If not a valid email, assume it's a username
+        user = await User.findOne({ username: identifier });
+      }
+    
       if (!user) {
-        throw new AuthenticationError(
-          "Email or Password is incorrect. Please try again."
-        );
+        throw new AuthenticationError("Email or Username is incorrect. Please try again.");
       }
-
+    
       const correctPw = await user.isCorrectPassword(password);
-
+    
       if (!correctPw) {
-        throw new AuthenticationError(
-          "Email or Password is incorrect. Please try again."
-        );
+        throw new AuthenticationError("Password is incorrect. Please try again.");
       }
-
+    
       const token = signToken(user);
       return { user, token };
     },

@@ -1,21 +1,30 @@
 import { createContext, useContext, useReducer } from "react";
 import { reducer } from './reducers'
 
-const SiteContext = createContext();
-const { Provider } = SiteContext;
+const UserContext = createContext();
+const { Provider } = UserContext;
+const CommentContext = createContext();
 
-const SiteProvider = ({ value = [], ...props }) => {
+
+const UserProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useReducer(reducer, {
-    cocktails: [],
-    ingredients: [],
+    user: [],
+    business: [],
+    cocktail: [],
     comments: [],
+    follower: [],
+    image: [],
+    profile: [],
+    reaction: [],
+    reviews: [],
+    tags: [],
   });
 
   return <Provider value={[state, dispatch]} {...props} />;
 };
 
-const useSiteContext = () => {
-  return useContext(SiteContext);
+const useUserContext = () => {
+  return useContext(UserContext);
 };
 
-export { SiteProvider, useSiteContext };
+export { UserProvider, useUserContext };

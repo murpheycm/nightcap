@@ -1,18 +1,30 @@
 import {
-    UPDATE_PROFILE,
-    ADD_COCKTAIL,
-    UPDATE_COCKTAIL,
-    REMOVE_COCKTAIL,
     ADD_COMMENT,
-    UPDATE_COMMENT,
-    REMOVE_COMMENT,
-    ADD_REACTION,
-    REMOVE_REACTION,
+    ADD_REVIEW,
+    ADD_TO_CART,
+    UPDATE_CART_QUANTITY,
+    REMOVE_FROM_CART,
+    ADD_MULTIPLE_TO_CART,
+    UPDATE_CATEGORIES,
+    UPDATE_CURRENT_CATEGORY,
+    CLEAR_CART,
+    TOGGLE_CART,
   } from './actions';
   
   export const reducer = (state, action) => {
     switch (action.type) {
-      case ADD_COCKTAIL:
+      // Returns a copy of state with an update products array. We use the action.products property and spread it's contents into the new array.
+      case ADD_COMMENT:
+        return {
+          ...state,
+          comments: [...state.comments, action.comment],
+        };
+      case ADD_REVIEW:
+        return {
+          ...state,
+          reviews: [...state.reviews, action.review],
+        };    
+      case ADD_TO_CART:
         return {
           ...state,
           cartOpen: true,
