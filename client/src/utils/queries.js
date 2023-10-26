@@ -43,10 +43,38 @@ export const QUERY_ALL_USERS = gql`
   }
 `;
 
+
+export const QUERY_FRIEND_REVIEWS = gql`
+  query getFriendsReviews($username: String!) {
+    getFriendsReviews(username: $username) {
+      _id
+      username
+      reviewDate: date
+      review {
+        _id
+        cocktail {
+          _id
+          name
+          business {
+            _id
+            name
+          }
+        }
+        title
+        text
+        image
+        rating
+        date
+      }
+    }
+  }
+`;
+
 export const QUERY_REVIEW = gql`
   query getReview($reviewId: ID!) {
     review(reviewId: $reviewId) {
       _id
+>>>>>>> dev
       user {
         _id
         username
