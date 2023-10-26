@@ -1,11 +1,18 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
 import { ADD_USER } from '../utils/mutations';
 
 function Signup(props) {
-  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [formState, setFormState] = useState({ 
+    email: '', 
+    password: '', 
+    firstName: '', 
+    lastName: '',
+    username: '',  // Add a field for the username
+  });
+  const [showPassword, setShowPassword] = useState(false); // Add a state for showing/hiding the password
   const [addUser] = useMutation(ADD_USER);
 
   const handleFormSubmit = async (event) => {
@@ -16,6 +23,7 @@ function Signup(props) {
         password: formState.password,
         firstName: formState.firstName,
         lastName: formState.lastName,
+        username: formState.username,  // Include username in the mutation variables
       },
     });
     const token = mutationResponse.data.addUser.token;
@@ -30,6 +38,10 @@ function Signup(props) {
     });
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="container my-1">
       <Link to="/login">← Go to Login</Link>
@@ -41,7 +53,7 @@ function Signup(props) {
           <input
             placeholder="First"
             name="firstName"
-            type="firstName"
+            type="text"  // Set the type to 'text' for first name
             id="firstName"
             onChange={handleChange}
           />
@@ -51,8 +63,18 @@ function Signup(props) {
           <input
             placeholder="Last"
             name="lastName"
-            type="lastName"
+            type="text"  // Set the type to 'text' for last name
             id="lastName"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="flex-row space-between my-2">
+          <label htmlFor="username">Username:</label>
+          <input
+            placeholder="Username"
+            name="username"
+            type="text"  // Set the type to 'text' for username
+            id="username"
             onChange={handleChange}
           />
         </div>
@@ -71,10 +93,13 @@ function Signup(props) {
           <input
             placeholder="******"
             name="password"
-            type="password"
+            type={showPassword ? 'text' : 'password'} // Toggle between 'text' and 'password'
             id="pwd"
             onChange={handleChange}
           />
+          <button type="button" onClick={toggleShowPassword}>
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
         </div>
         <div className="flex-row flex-end">
           <button type="submit">Submit</button>
