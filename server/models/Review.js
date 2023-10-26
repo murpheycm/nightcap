@@ -27,10 +27,7 @@ const reviewSchema = new Schema({
     type: String,
   },
   comments: [commentSchema],
-  thumbUpCount: {
-    type: Number,
-  },
-  thumbDownCount: {
+  cheersCount: {
     type: Number,
   },
   // reactions: [reactionSchema],

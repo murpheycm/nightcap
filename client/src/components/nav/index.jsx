@@ -1,6 +1,6 @@
 import Auth from "../../utils/auth";
 import { Link } from "react-router-dom";
-import MainSearch from "../mainSearch";
+import MainSearch from "../MainSearch";
 
 function Nav() {
 

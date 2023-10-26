@@ -42,12 +42,10 @@ function UploadPicture() {
       },
       (err) => {
         console.error("Upload failed: ", err);
-        // You can provide user feedback for the failure here.
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           console.log("Upload complete. Download URL: ", url);
-          // You can provide user feedback for the successful upload here.
         });
       }
     );
