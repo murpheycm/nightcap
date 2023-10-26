@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { useUserContext } from '../utils/GlobalState'; // Import the context hook
-import {
-  GET_FRIEND_REVIEWS,
-  GET_USER_REVIEWS,
-} from '../utils/queries';
+// import { useUserContext } from '../utils/GlobalState'; // Import the context hook
+// import {
+//   GET_FRIEND_REVIEWS,
+//   GET_USER_REVIEWS,
+// } from '../utils/queries';
 
 function UserReviews({ review, onCommentSubmit, isFriendsReviews, username }) {
   const [showCommentForm, setShowCommentForm] = useState(false);
