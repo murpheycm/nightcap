@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import UserProfilePicture from './UserProfilePicture'; // Component for user profile picture
-import MainSearch from '../components/mainSearch';
+import MainSearch from '../components/MainSearch';
 const MainPage = () => {
   return (
     <div>

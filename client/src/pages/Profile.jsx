@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { QUERY_USER } from '../path-to-your-queries';
+import { QUERY_USER } from '../utils/queries';
+import UserReviews from '../components/UserReviews';
 
 const Profile = ({ username }) => {
   const { loading, error, data } = useQuery(QUERY_USER, {
@@ -16,25 +17,18 @@ const Profile = ({ username }) => {
     <div>
       <div>
         <img src={user.profile.profileImage} alt="User Profile" />
-        <h2>{user.username}</h2>
-        <p>Name: {`${user.profile.firstName} ${user.profile.lastName}`}</p>
-        <p>Email: {user.email}</p>
+        <h2>{`${user.profile.firstName} ${user.profile.lastName}`}</h2>
+        <p>{user.username}</p>
+        <p>{user.email}</p>
       </div>
 
       <div>
-        <h3>Recent Reviews</h3>
-        {user.reviews.map((review) => (
-          <div key={review._id}>
-            <img src={user.profile.profileImage} alt="User Profile" />
-            <p>
-              My full name is enjoying {review.cocktail.name} at {review.business} with a rating of {review.rating}.
-            </p>
-            <div>
-              <button onClick={() => handleComment(review._id)}>Comment</button>
-              <button onClick={() => handleToast(review._id)}>Toast</button>
-            </div>
-          </div>
-        ))}
+        <UserReviews
+            review={user.reviews}
+            onCommentSubmit={handleCommentSubmit}
+            isFriendsReviews={false}
+            username={user.username}
+        />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import UploadPicture from "../components/uploadPicture";
+import UploadPicture from "../components/UploadPicture";
 import TextField from "@mui/material/TextField";
-import List from "../components/cocktailSearch";
+import List from "../components/CocktailSearch";
 import Select from "react-select";
 
 function UploadCocktail() {

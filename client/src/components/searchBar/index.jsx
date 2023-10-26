@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import "./searchBar.css";
 import SearchIcon from "@material-ui/icons/Search";
+import CloseIcon from "@material-ui/icons/Close";
+import { Link } from "react-router-dom";
 
 function SearchBar({placeholder, data}) {
     const [filteredData, setFilteredData] = useState([]);
+    const [wordEntered, setWordEntered] = useState("");
 
     const handleFilter = (event) => {
-        const searchWord = event.target.value
+        const searchWord = event.target.value;
+        setWordEntered(searchWord);
         const newFilter = data.filter((value) => {
             return value.toLowerCase().includes(searchWord.toLowerCase());
         });
@@ -17,27 +21,30 @@ function SearchBar({placeholder, data}) {
         }
     };
 
+    const clearInput = () => {
+        setFilteredData([]);
+        setWordEntered("");
+    };
+
     return (
         <div className="search">
             <div className="searchInputs">
-                <input type="text" placeholder={placeholder} onChange={handleFilter}/>
+                <input type="text" placeholder={placeholder} value={wordEntered} onChange={handleFilter}/>
                 <div className="searchIcon">
-                    <SearchIcon />
+                    {filteredData.length > 0? <SearchIcon /> : <CloseIcon id="clearBtn" onClick={clearInput}/>}
                 </div>
             </div>
             {filteredData.length != 0 && (
             <div className="dataResult">
                 {filteredData.slice(0, 15).map((value, key) => {
-                    return (
-                    <a className="dataItem" href={value.link} target="_blank">
-                        <p>{value.title}</p>
-                    </a>
-                    );
+                    <Link to={`/item/$(value.id)/$(value.id)`} key={key}>
+                        {value.name}
+                    </Link>
                 })}
             </div>
             )}
         </div>    
-    )
+    );
 }
 
 export default SearchBar;

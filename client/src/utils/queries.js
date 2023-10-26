@@ -70,6 +70,32 @@ export const QUERY_FRIEND_REVIEWS = gql`
   }
 `;
 
+export const QUERY_USER_REVIEWS = gql`
+  query getUserReviews($username: String!) {
+    getUserReviews(username: $username) {
+      _id
+      username
+      reviewDate: date
+      review {
+        _id
+        cocktail {
+          _id
+          name
+          business {
+            _id
+            name
+          }
+        }
+        title
+        text
+        image
+        rating
+        date
+      }
+    }
+  }
+`;
+
 export const QUERY_REVIEW = gql`
   query getReview($reviewId: ID!) {
     review(reviewId: $reviewId) {

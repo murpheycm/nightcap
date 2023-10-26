@@ -1,23 +1,30 @@
 import { createContext, useContext, useReducer } from "react";
 import { reducer } from './reducers'
 
-const StoreContext = createContext();
-const { Provider } = StoreContext;
+const UserContext = createContext();
+const { Provider } = UserContext;
+const CommentContext = createContext();
 
-const StoreProvider = ({ value = [], ...props }) => {
+
+const UserProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useReducer(reducer, {
-    products: [],
-    cart: [],
-    cartOpen: false,
-    categories: [],
-    currentCategory: '',
+    user: [],
+    business: [],
+    cocktail: [],
+    comments: [],
+    follower: [],
+    image: [],
+    profile: [],
+    reaction: [],
+    reviews: [],
+    tags: [],
   });
 
   return <Provider value={[state, dispatch]} {...props} />;
 };
 
-const useStoreContext = () => {
-  return useContext(StoreContext);
+const useUserContext = () => {
+  return useContext(UserContext);
 };
 
-export { StoreProvider, useStoreContext };
+export { UserProvider, useUserContext };
