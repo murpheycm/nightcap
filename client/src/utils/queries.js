@@ -43,6 +43,7 @@ export const QUERY_ALL_USERS = gql`
   }
 `;
 
+
 export const QUERY_FRIEND_REVIEWS = gql`
   query getFriendsReviews($username: String!) {
     getFriendsReviews(username: $username) {
@@ -73,6 +74,7 @@ export const QUERY_REVIEW = gql`
   query getReview($reviewId: ID!) {
     review(reviewId: $reviewId) {
       _id
+>>>>>>> dev
       user {
         _id
         username
