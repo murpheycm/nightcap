@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import ImageUpload from "../components/uploadPicture";
+import UploadPicture from "../components/UploadPicture";
 import TextField from "@mui/material/TextField";
-import List from "../components/cocktailSearch";
+import List from "../components/CocktailSearch";
 import Select from "react-select";
 
 function UploadCocktail() {
@@ -72,7 +72,7 @@ function UploadCocktail() {
         </div>
         <div>
           <label>Image:</label>
-          <ImageUpload onImageChange={handleImageChange} />
+          <UploadPicture onImageChange={handleImageChange} />
         </div>
         <div>
           <label>Select Tags for your cocktail:</label>
