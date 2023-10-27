@@ -25,14 +25,16 @@ function UploadProfile() {
           <div className="profile-picture">
             <h3>Profile Picture</h3>
             <UploadPicture />
-            {/* Add additional profile picture-related content here */}
           </div>
 
           <div className="username">
             <h3>Username</h3>
-            <p>
-              <span>{user.username}</span> <span>(Change)</span>
-            </p>
+            <input
+              type="text"
+              name="username"
+              value={user.username}
+              onChange={handleInputChange}
+            />
           </div>
 
           <div className="email">
