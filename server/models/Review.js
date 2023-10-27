@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 
-const commentSchema = require("./Comment");
+const Comment = require("./Comment");
+const Cheers = require("./Cheers");
 // const reactionSchema = require("./Reaction");
 // const imageSchema = require("./Image");
 
@@ -23,13 +24,17 @@ const reviewSchema = new Schema({
     type: String,
     required: true,
   },
+  rating: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 5,
+  },
   image: {
     type: String,
   },
-  comments: [commentSchema],
-  cheersCount: {
-    type: Number,
-  },
+  comments: [Comment],
+  cheers: [Cheers],
   // reactions: [reactionSchema],
   createdAt: {
     type: Date,
@@ -48,18 +53,20 @@ reviewSchema.virtual('commentsCount').get(function () {
 });
 // not sure if this is the right way to do this yet...
 // trying to push review to both user and cocktail models after review is created
-reviewSchema.post("save", function (doc, next) {
+reviewSchema.post("save", async function (doc, next) {
   console.log(doc);
-  const cocktail = Cocktail.findByIdAndUpdate(doc.cocktail, {
-    $addToSet: { reviews: doc },
+
+  // Use async/await to update related models
+  const cocktail = await Cocktail.findByIdAndUpdate(doc.cocktail, {
+    $addToSet: { reviews: doc._id }, // Use doc._id to reference the review
   });
-  const user = User.findByIdAndUpdate(doc.user, { $addToSet: { reviews: doc } });
+  const user = await User.findByIdAndUpdate(doc.user, {
+    $addToSet: { reviews: doc._id }, // Use doc._id to reference the review
+  });
+
   next();
 });
 
 
-// const Review = model("Review", reviewSchema);
-
-// module.exports = Review;
-
-module.exports = reviewSchema;
+const Review = model("Review", reviewSchema);
+module.exports = Review;

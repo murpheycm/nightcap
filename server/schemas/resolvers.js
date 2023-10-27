@@ -1,4 +1,4 @@
-const { User, Profile, Review, Cocktail, Image, Tags, Comment } = require("../models");
+const { Business, Cheers, Cocktail, Comment, Friends, Profile, Review, Tag, User } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
@@ -8,8 +8,8 @@ const resolvers = {
         const userData = await User.findOne({ _id: context.user._id })
           .select("-__v -password")
           .populate("profile")
+          .populate("friends")
           .populate("reviews");
-
         return userData;
       }
       throw AuthenticationError;
@@ -32,7 +32,9 @@ const resolvers = {
       if (context.user) {
         const cocktailData = await Cocktail.findOne({ _id })
           .select("-__v -password")
-          .populate("reviews");
+          .populate("reviews")
+          .populate("comments")
+          .populate("business");
         return cocktailData;
       }
       throw AuthenticationError;
@@ -50,7 +52,7 @@ const resolvers = {
           .select("-__v -password")
           .populate("images")
           .populate("comments")
-          .populate("reactions");
+          .populate("cheers");
         return reviewData;
       }
       throw AuthenticationError;

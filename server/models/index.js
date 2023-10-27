@@ -5,9 +5,9 @@ const BusinessProfile = require('./BusinessProfile');
 const Review = require('./Review');
 const Image = require('./Image');
 const Cocktail = require('./Cocktail');
-const Tags = require('./Tags');
+const Tag = require('./Tag');
 const Comment = require('./Comment');
 const Cheers = require('./Cheers');
 const Friends = require('./Friends');
 
-module.exports = { User, Profile, Review, Image, Cocktail, Tags, Comment, Cheers, Friends, Business, BusinessProfile,};
+module.exports = { User, Profile, Review, Image, Cocktail, Tag, Comment, Cheers, Friends, Business, BusinessProfile,};

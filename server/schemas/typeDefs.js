@@ -5,6 +5,8 @@ const typeDefs = gql`
         _id: ID!
         username: String!
         email: String!
+        firstName: String!
+        lastName: String!
         profile: Profile
         reviews: [Review]
     }
@@ -15,22 +17,26 @@ const typeDefs = gql`
         email: String!
         profile: BusinessProfile
         reviews: [Review]
+        cocktails: [Cocktail]
     }
 
     type Profile {
         _id: ID!
         user: User!
-        firstName: String
-        lastName: String
         bio: String
+        birthday: String
+        location: String
+        country: String
         profileImage: String
     }
 
     type BusinessProfile {
         _id: ID!
-        user: Business!
+        name: String!
+        email: String
+        phoneNumber: String
         bio: String
-        profileImage: String
+        businessImage: String
         website: String
         location: String
         reviews: [Review]
@@ -42,9 +48,10 @@ const typeDefs = gql`
         cocktail: Cocktail!
         title: String!
         text: String!
+        rating: Nunber!
         image: String
         comments: [Comment]
-        reactions: [Reaction]
+        cheers: [Cheers]
         createdAt: String!
     }
 
@@ -54,7 +61,10 @@ const typeDefs = gql`
         description: String
         ingredients: [String]
         allergens: [String]
+        reviews: [Review]
         tags: [Tag]
+        business: Business
+        image: String
     }
 
     type Image {
@@ -80,10 +90,17 @@ const typeDefs = gql`
         review: Review!
     }
 
-    type Follower {
+    type Cheers {
         _id: ID!
-        follower_id: User
-        following_id: User
+        user: User!
+        comment: Comment
+        review: Review
+    }
+
+    type Friends {
+        user: User!
+        friend: User!
+        status: String!
     }
 
     type Auth {
@@ -92,40 +109,65 @@ const typeDefs = gql`
     }
 
     type Query {
-        user: User
+        user(_id: ID!): User
         users: [User]
-        cocktails: [Cocktail]
+        business(_id: ID!): Business
+        businesses: [Business]
+        profile(_id: ID!): Profile
+        profiles: [Profile]
+        businessProfile(_id: ID!): BusinessProfile
+        businessProfiles: [BusinessProfile]
         cocktail(_id: ID!): Cocktail
-        reviews: [Review]
+        cocktails: [Cocktail]
         review(_id: ID!): Review
-        images: [Image]
+        reviews: [Review]
         image(_id: ID!): Image
+        images: [Image]
+        tag(_id: ID!): Tag
+        tags: [Tag]
+        comment(_id: ID!): Comment
+        comments: [Comment]
+        cheers(_id: ID!): Cheers
+        cheersList: [Cheers]
+        friends: [Friends]
     }
 
     type Mutation {
         addUser(username: String!, email: String!, password: String!): Auth
+        
+        updateUser(_id: ID!, input: UserInput): User
 
         addBusiness(name: String!, email: String!, password: String!): Auth
-
-        login(email: String!, password: String!): Auth
         
-        addProfile(firstName: String!, lastName: String, bio: String, profileImage: String): Profile
+        updateBusinessProfile(_id: ID!, input: BusinessProfileInput): BusinessProfile
 
-        addBusinessProfile(bio: String, profileImage: String, website: String, location: String): BusinessProfile
+        updateProfile(_id: ID!, input: ProfileInput): Profile
 
-        addCocktail(name: String!, description: String, ingredients: [String], allergens: [String]): Cocktail
+        addBusinessProfile(input: BusinessProfileInput): BusinessProfile
+        
+        updateBusinessProfile(_id: ID!, input: BusinessProfileInput): BusinessProfile
 
-        addImage(url: String!): Image
+        addCocktail(input: CocktailInput): Cocktail
+        
+        updateCocktail(_id: ID!, input: CocktailInput): Cocktail
 
-        addReview(title: String!, text: String!): Review
+        addReview(input: ReviewInput): Review
+        
+        updateReview(_id: ID!, input: ReviewInput): Review
 
-        deleteReview(_id: ID!): Review
+        addComment(input: CommentInput): Comment
+        
+        updateComment(_id: ID!, input: CommentInput): Comment
 
-        addTag(name: String!): Tag
+        addCheers(input: CheersInput): Cheers
 
-        addComment(comment: String!): Comment
+        addTag(input: TagInput): Tag
 
-        addReaction(reaction: String!): Reaction       
+        addFriend(input: FriendInput): Friend
+
+        deleteFriend(_id: ID!, input: FriendInput): Friends
+        
+        updateFriend(_id: ID!, input: FriendInput): Friends
     }
 `;
 

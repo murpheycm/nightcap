@@ -76,7 +76,7 @@ function UploadProfile() {
             />
           </div>
 
-          <div className="lastName">
+          <div className="bio">
             <h3>About Me</h3>
             <input
               type="text"
@@ -86,17 +86,17 @@ function UploadProfile() {
             />
           </div>
 
-          <div className="lastName">
+          <div className="birthday">
             <h3>Birthday</h3>
             <input
               type="text"
-              name="location"
+              name="birthday"
               value={user.location}
               onChange={handleInputChange}
             />
           </div>
 
-          <div className="lastName">
+          <div className="country">
             <h3>Location</h3>
             <input
               type="text"
@@ -115,11 +115,6 @@ function UploadProfile() {
               onChange={handleInputChange}
             />
           </div>
-
-        </div>
-
-        <div className="update-settings">
-          <h2>Update Settings</h2>
 
           <div className="change-password">
             <h3>Change Password</h3>
