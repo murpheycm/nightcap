@@ -3,7 +3,6 @@ import { reducer } from './reducers'
 
 const UserContext = createContext();
 const { Provider } = UserContext;
-const CommentContext = createContext();
 
 
 const UserProvider = ({ value = [], ...props }) => {

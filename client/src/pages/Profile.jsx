@@ -30,6 +30,9 @@ const Profile = ({ username }) => {
             username={user.username}
         />
       </div>
+      <div>
+        
+      </div>
     </div>
   );
 };

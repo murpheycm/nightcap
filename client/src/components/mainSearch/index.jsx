@@ -1,5 +1,5 @@
 import React from 'react';
-// import SearchBar from './SearchBar';
+import SearchBar from '../SearchBar';
 
 function MainSearch({ users, businesses, cocktails, tags }) {
   const businessNames = businesses.map(business => business.name);
