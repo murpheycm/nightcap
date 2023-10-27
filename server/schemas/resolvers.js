@@ -1,4 +1,4 @@
-const { User, Profile, Review, Cocktail, Image, Tag, Comment } = require("../models");
+const { User, Profile, Review, Cocktail, Image, Tags, Comment } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {

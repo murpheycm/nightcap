@@ -100,7 +100,6 @@ export const QUERY_REVIEW = gql`
   query getReview($reviewId: ID!) {
     review(reviewId: $reviewId) {
       _id
->>>>>>> dev
       user {
         _id
         username

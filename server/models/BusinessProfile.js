@@ -17,4 +17,4 @@ const businessProfileSchema = new Schema({
 
 const BusinessProfile = model("BusinessProfile", businessProfileSchema);
 
-module.exports = businessProfileSchema;
+module.exports = BusinessProfile;

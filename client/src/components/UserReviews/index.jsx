@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { useUserContext } from '../../utils/GlobalState'; // Import the context hook
 import {
-  GET_FRIEND_REVIEWS,
-  GET_USER_REVIEWS,
+  QUERY_FRIEND_REVIEWS,
+  QUERY_USER_REVIEWS,
 } from '../../utils/queries';
 
 function UserReviews({ review, onCommentSubmit, isFriendsReviews, username }) {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [comment, setComment] = useState('');
   const [reviews, setReviews] = useState([]);
-  const query = isFriendsReviews ? GET_FRIEND_REVIEWS : GET_USER_REVIEWS;
+  const query = isFriendsReviews ? QUERY_FRIEND_REVIEWS : QUERY_USER_REVIEWS;
 
   // Use the context hook to access global state and dispatch actions
   const [state, dispatch] = useUserContext();

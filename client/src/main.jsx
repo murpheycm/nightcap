@@ -14,7 +14,7 @@ import UploadCocktail from './pages/UploadCocktail';
 import Cocktails from './pages/Cocktails';
 import Cocktail from './pages/Cocktail';
 import Business from './pages/Business';
-import Tag from './pages/Tag';
+import Tags from './pages/Tags';
 
 const router = createBrowserRouter([
   {
@@ -35,10 +35,10 @@ const router = createBrowserRouter([
         path: '/user/:id',
         element: <Profile />
       }, {
-        path: '/user/settings',
+        path: '/account/settings',
         element: <ProfileSettings />
       }, {
-        path: '/post-review',
+        path: '/cocktail/:id/post-review',
         element: <PostReview />
       }, {
         path: '/upload-cocktail',
@@ -53,8 +53,8 @@ const router = createBrowserRouter([
         path: '/business/:id',
         element: <Business />
       }, {
-        path: '/tag/:id',
-        element: <Tag />
+        path: '/tags',
+        element: <Tags />
       }
     ]
   }

@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const Review = require('./Review');
-const tagSchema = require('./Tag');
+const tagSchema = require('./Tags');
 
 const cocktailSchema = new Schema({
     name: {
@@ -15,7 +15,7 @@ const cocktailSchema = new Schema({
     ingredients: [String],
     allergens: [String],
     reviews: [Review],
-    tags: [tagSchema],
+    tags: [{ type: Schema.Types.ObjectId, ref: 'Tags' }],
 });
 
 const Cocktail = model('Cocktail', cocktailSchema);
