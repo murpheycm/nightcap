@@ -1,89 +1,101 @@
 import {
     ADD_COMMENT,
+    UPDATE_COMMENT,
+    REMOVE_COMMENT,
+    ADD_CHEERS,
+    REMOVE_CHEERS,
     ADD_REVIEW,
-    ADD_TO_CART,
-    UPDATE_CART_QUANTITY,
-    REMOVE_FROM_CART,
-    ADD_MULTIPLE_TO_CART,
-    UPDATE_CATEGORIES,
-    UPDATE_CURRENT_CATEGORY,
-    CLEAR_CART,
-    TOGGLE_CART,
+    UPDATE_REVIEW,
+    REMOVE_REVIEW,
+    ADD_COCKTAIL,
+    UPDATE_COCKTAIL,
+    REMOVE_COCKTAIL,
   } from './action';
   
   export const reducer = (state, action) => {
     switch (action.type) {
-      // Returns a copy of state with an update products array. We use the action.products property and spread it's contents into the new array.
       case ADD_COMMENT:
         return {
           ...state,
+          // Add a new comment to the comments array
           comments: [...state.comments, action.comment],
-        };
-      case ADD_REVIEW:
-        return {
-          ...state,
-          reviews: [...state.reviews, action.review],
-        };    
-      case ADD_TO_CART:
-        return {
-          ...state,
-          cartOpen: true,
-          cart: [...state.cart, action.product],
-        };
-
-      case UPDATE_COCKTAIL:
-        return {
-          ...state,
-          cartOpen: true,
-          cart: state.cart.map((product) => {
-            if (action._id === product._id) {
-              product.purchaseQuantity = action.purchaseQuantity;
-            }
-            return product;
-          }),
-        };
-  
-      case REMOVE_COCKTAIL:
-        return {
-          ...state,
-          categories: [...action.categories],
-        };
-  
-      return {
-          ...state,
-          
-        };
-
-
-      case ADD_COMMENT:
-        return {
-          ...state,
-          comments: [...state.post, action.comment],
         };
 
       case UPDATE_COMMENT:
         return {
           ...state,
-          categories: [...action.categories],
+          // Update a comment in the comments array
+          comments: state.comments.map(comment =>
+            comment.id === action.comment.id ? action.comment : comment
+          ),
         };
 
       case REMOVE_COMMENT:
         return {
           ...state,
-          categories: [...action.categories],
+          // Remove a comment from the comments array
+          comments: state.comments.filter(comment => comment.id !== action.commentId),
         };
-
-      case ADD_REACTION:
+  
+      case ADD_CHEERS:
         return {
           ...state,
-          categories: [...action.categories],
+          // Add a new cheer to the reactions array
+          reactions: [...state.reactions, action.cheers],
         };      
+    
+      case REMOVE_CHEERS:
+        return {
+          ...state,
+           // Remove a cheer from the reactions array
+          reactions: state.reactions.filter(cheers => cheers.id !== action.cheersId),
+        };
+
+      case ADD_REVIEW:
+        return {
+          ...state,
+          // Add a new review to the reviews array
+          reviews: [...state.reviews, action.review],
+        };
+
+      case UPDATE_REVIEW:
+        return {
+          ...state,
+          // Update a review in the reviews array
+          reviews: state.reviews.map(review =>
+            review.id === action.review.id ? action.review : review
+          ),
+        };
+        
+      case REMOVE_REVIEW:
+        return {
+          ...state,
+          // Remove a review from the reviews array
+          reviews: state.reviews.filter(review => review.id !== action.reviewId),
+        };  
+
+      case ADD_COCKTAIL:
+        return {
+          ...state,
+          // Add a new cocktail to the cocktails array
+          cocktails: [...state.cocktails, action.cocktail],
+        };
       
-        case REMOVE_REACTION:
-          return {
-            ...state,
-            categories: [...action.categories],
-          };
+      case UPDATE_COCKTAIL:
+        return {
+          ...state,
+          // Update a cocktail in the cocktails array
+          cocktails: state.cocktails.map(cocktail =>
+            cocktail.id === action.cocktail.id ? action.cocktail : cocktail
+          ), 
+        };
+  
+      case REMOVE_COCKTAIL:
+        return {
+          ...state,
+          // Remove a cocktail from the cocktails array
+          cocktails: state.cocktails.filter(cocktail => cocktail.id !== action.cocktailId),
+        };
 
   
       // This saves us from a crash.
