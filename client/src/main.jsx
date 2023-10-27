@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App.jsx';
 import Home from './pages/Home';
-import NoMatch from './pages/NoMatch';
+// import NoMatch from './pages/NoMatch';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
@@ -12,6 +12,7 @@ import ProfileSettings from './pages/ProfileSettings';
 import PostReview from './pages/PostReview';
 import UploadCocktail from './pages/UploadCocktail';
 import Cocktails from './pages/Cocktails';
+
 import Cocktail from './pages/Cocktail';
 import Business from './pages/Business';
 import Tag from './pages/Tag';
