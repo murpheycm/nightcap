@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
-import React, { useState } from 'react';
-import UserReviews from '../components/UserReviews';
+import { useState } from 'react';
 
+import UserReviews from '../components/UserReviews';
 
 
 function FriendReviews({ review }) {
