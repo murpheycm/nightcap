@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchBar from './SearchBar';
+// import SearchBar from './SearchBar';
 
 function CocktailSearch({ cocktails, tags }) {
   const cocktailNames = cocktails.map(cocktail => cocktail.name);

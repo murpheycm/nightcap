@@ -9,7 +9,7 @@ import {
     UPDATE_CURRENT_CATEGORY,
     CLEAR_CART,
     TOGGLE_CART,
-  } from './actions';
+  } from './action';
   
   export const reducer = (state, action) => {
     switch (action.type) {

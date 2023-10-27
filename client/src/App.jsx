@@ -1,4 +1,3 @@
-import { Outlet } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -6,6 +5,7 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import { Outlet } from 'react-router-dom';
 
 import Nav from './components/Nav';
 import { UserProvider } from './utils/GlobalState';
@@ -32,10 +32,13 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <UserProvider>
+      {/* <UserProvider> */}
+    
         <Nav />
-        <Outlet />
-      </UserProvider>
+        <div className="container">
+          <Outlet />
+        </div>
+      {/* </UserProvider> */}
     </ApolloProvider>
   );
 }
