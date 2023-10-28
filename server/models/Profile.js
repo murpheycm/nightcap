@@ -8,6 +8,7 @@ const profileSchema = new Schema({
   },
   bio: {
     type: String,
+    maxlength: 500,
   },
   birthday: {
     type: Date,
@@ -18,7 +19,7 @@ const profileSchema = new Schema({
   country: {
     type: String,
   },
-  profileImage: String,
+  image: String,
 });
 
 const Profile = model("Profile", profileSchema);

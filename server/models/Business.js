@@ -1,9 +1,8 @@
 const { Schema, model } = require("mongoose");
 const Review = require('./Review');
-const BusinessProfile = require('./BusinessProfile');
 const Cocktail = require('./Cocktail');
 
-const businessProfileSchema = new Schema({
+const businessSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -20,14 +19,16 @@ const businessProfileSchema = new Schema({
   },
   bio: {
     type: String,
+    maxlength: 500,
   },
-  businessImage: String,
+  likedByUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  image: [String],
   website: String,
   location: String,
   reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
   cocktails: [{ type: Schema.Types.ObjectId, ref: "Cocktail" }],
 });
 
-const BusinessProfile = model("BusinessProfile", businessProfileSchema);
+const Business = model("BusinessProfile", businessSchema);
 
-module.exports = BusinessProfile;
+module.exports = Business;

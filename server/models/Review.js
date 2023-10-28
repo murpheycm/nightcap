@@ -31,10 +31,10 @@ const reviewSchema = new Schema({
     max: 5,
   },
   image: {
-    type: String,
+    type: [String],
   },
-  comments: [Comment],
-  cheers: [Cheers],
+  comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+  cheers: [{ type: Schema.Types.ObjectId, ref: "Cheers" }],
   // reactions: [reactionSchema],
   createdAt: {
     type: Date,

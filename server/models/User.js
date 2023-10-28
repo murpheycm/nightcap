@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 
 const Review = require('./Review');
 const Profile = require('./Profile');
+const Cocktail = require('./Cocktail');
+const Business = require('./Business');
 
 const userSchema = new Schema(
   {
@@ -27,8 +29,28 @@ const userSchema = new Schema(
     lastName: {
       type: String,
     },
-    profile: Profile,
-    reviews: [Review],  
+    profile: {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile',
+    },
+    likedBusinesses: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Business',
+    }],
+    reviews: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Review',
+    }],
+    cocktails: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Cocktail',
+    }],  
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Friends',
+      }
+    ]
   },
   // set this to use virtual below
   {

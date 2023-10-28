@@ -15,9 +15,17 @@ const cocktailSchema = new Schema({
     },
     ingredients: [String],
     allergens: [String],
-    reviews: [Review],
+    reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
-    business: { type: Schema.Types.ObjectId, ref: 'Business' },
+    business: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'Business',
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
     image: String, 
 },
   {
