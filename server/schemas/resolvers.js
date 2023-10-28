@@ -304,6 +304,27 @@ const resolvers = {
           throw new Error('Failed to update cocktail.');
         }
     },
+    removeCocktail: async (parent, { _id }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You must be logged in to delete a cocktail.');
+      }
+    
+      try {
+        // Check if the cocktail exists and belongs to the authenticated user
+        const cocktail = await Cocktail.findOne({ _id, user: context.user._id });
+    
+        if (!cocktail) {
+          throw new Error('Cocktail not found or you are not authorized to delete it.');
+        }
+    
+        const deletedCocktail = await Cocktail.findByIdAndDelete(_id);
+    
+        return deletedCocktail;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Failed to delete cocktail.');
+      }
+    },
     addReview: async (parent, args, context) => {
         if (!context.user) {
           throw new AuthenticationError('You must be logged in to add a review.');
@@ -331,6 +352,32 @@ const resolvers = {
           console.error(error);
           throw new Error('Failed to update review.');
         }
+    },
+    removeReview: async (parent, { _id }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You must be logged in to delete a review.');
+      }
+  
+      try {
+        // Check if the review exists and is owned by the user
+        const review = await Review.findById(_id);
+        if (!review) {
+          throw new Error('Review not found.');
+        }
+        if (review.user._id.toString() !== context.user._id) {
+          throw new AuthenticationError('You are not authorized to delete this review.');
+        }
+  
+        // Delete the review and its associated comments and cheers
+        await Comment.deleteMany({ review: _id });
+        await Cheers.deleteMany({ review: _id });
+        const deletedReview = await Review.findByIdAndDelete(_id);
+  
+        return deletedReview;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Failed to delete the review.');
+      }
     },
     addComment: async (parent, args, context) => {
         if (!context.user) {
@@ -360,6 +407,31 @@ const resolvers = {
           throw new Error('Failed to update comment.');
         }
     },
+    removeComment: async (parent, { _id }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You must be logged in to delete a comment.');
+      }
+  
+      try {
+        // Check if the comment exists and is owned by the user
+        const comment = await Comment.findById(_id);
+        if (!comment) {
+          throw new Error('Comment not found.');
+        }
+        if (comment.user._id.toString() !== context.user._id) {
+          throw new AuthenticationError('You are not authorized to delete this comment.');
+        }
+  
+        // Delete the comment from the review
+        await Review.findByIdAndUpdate(comment.review, { $pull: { comments: _id } });
+        const deletedComment = await Comment.findByIdAndDelete(_id);
+  
+        return deletedComment;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Failed to delete the comment.');
+      }
+    },
     addCheers: async (parent, args, context) => {
         if (!context.user) {
           throw new AuthenticationError('You must be logged in to add cheers.');
@@ -372,17 +444,48 @@ const resolvers = {
           throw new Error('Failed to add cheers.');
         }
     },
-    addTag: async (parent, args, context) => {
-        if (!context.user) {
-          throw new AuthenticationError('You must be logged in to add a tag.');
+    removeCheers: async (parent, { _id }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You must be logged in to delete cheers.');
+      }
+    
+      try {
+        // Check if the cheers exists and is owned by the user
+        const cheers = await Cheers.findById(_id);
+        if (!cheers) {
+          throw new Error('Cheers not found.');
         }
-        try {
+        if (cheers.user._id.toString() !== context.user._id) {
+          throw new AuthenticationError('You are not authorized to delete this cheers.');
+        }
+    
+        const deletedCheers = await Cheers.findByIdAndDelete(_id);
+    
+        return deletedCheers;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Failed to delete the cheers.');
+      }
+    },
+    addTag: async (parent, args, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You must be logged in to add a tag.');
+      }
+    
+      try {
+        // Check if a tag with the same name already exists
+        const existingTag = await Tag.findOne({ name: args.name });
+    
+        if (existingTag) {
+          throw new Error('Tag with the same name already exists.');
+        } else {
           const tagData = await Tag.create(args);
           return tagData;
-        } catch (error) {
-          console.error(error);
-          throw new Error('Failed to create a tag.');
         }
+      } catch (error) {
+        console.error(error);
+        throw new Error('Failed to create a tag.');
+      }
     },
     addFriend: async (parent, args, context) => {
         if (!context.user) {
@@ -421,7 +524,7 @@ const resolvers = {
         throw new Error('Failed to accept friend request.');
       }
     },
-    deleteFriend: async (parent, args, context) => {
+    removeFriend: async (parent, args, context) => {
         if (!context.user) {
           throw new AuthenticationError('You must be logged in to delete a friend.');
         }
@@ -447,6 +550,39 @@ const resolvers = {
           console.error(error);
           throw new Error('Failed to like a business.');
         }
+    },
+    unlikeBusiness: async (parent, { _id }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You must be logged in to remove a like from a business.');
+      }
+    
+      try {
+        // Find the business by its _id
+        const business = await Business.findById(_id);
+    
+        if (!business) {
+          throw new Error('Business not found.');
+        }
+    
+        // Check if the user has liked the business
+        if (business.likes.includes(context.user._id)) {
+          business.likes = business.likes.filter(userId => userId.toString() !== context.user._id.toString());
+          await business.save();
+    
+          context.user.likedBusinesses = context.user.likedBusinesses.filter(
+            businessId => businessId.toString() !== _id.toString()
+          );
+          await context.user.save();
+    
+          // Return the updated business
+          return business;
+        } else {
+          throw new Error('You have not liked this business.');
+        }
+      } catch (error) {
+        console.error(error);
+        throw new Error('Failed to remove the like from the business.');
+      }
     },
     login: async (parent, { identifier, password }) => {
         const user = await User.findOne({ $or: [{ email: identifier }, { username: identifier }] });
