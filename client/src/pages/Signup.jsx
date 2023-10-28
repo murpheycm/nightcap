@@ -53,29 +53,8 @@ function Signup(props) {
   return (
     <div className="container my-1">
       <Link to="/login">← Go to Login</Link>
-
+    <form onSubmit={handleFormSubmit}>
       <h2>Signup</h2>
-      <form onSubmit={handleFormSubmit}>
-        <div className="flex-row space-between my-2">
-          <label htmlFor="firstName">First Name:</label>
-          <input
-            placeholder="First"
-            name="firstName"
-            type="text"
-            id="firstName"
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex-row space-between my-2">
-          <label htmlFor="lastName">Last Name:</label>
-          <input
-            placeholder="Last"
-            name="lastName"
-            type="text"
-            id="lastName"
-            onChange={handleChange}
-          />
-        </div>
         <div className="flex-row space-between my-2">
           <label htmlFor="username">Username:</label>
           <input
@@ -97,6 +76,26 @@ function Signup(props) {
           />
         </div>
         <div className="flex-row space-between my-2">
+          <label htmlFor="firstName">First Name:</label>
+          <input
+            placeholder="First"
+            name="firstName"
+            type="text"
+            id="firstName"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="flex-row space-between my-2">
+          <label htmlFor="lastName">Last Name:</label>
+          <input
+            placeholder="Last"
+            name="lastName"
+            type="text"
+            id="lastName"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="flex-row space-between my-2">
           <label htmlFor="password">Password:</label>
           <input
             placeholder="******"
@@ -114,7 +113,7 @@ function Signup(props) {
           <input
             placeholder="******"
             name="confirmPassword"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? 'text' : 'confirmPassword'}
             id="confirmPassword"
             onChange={handleChange}
           />

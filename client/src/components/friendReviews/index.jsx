@@ -7,7 +7,7 @@ function FriendReview({ review, onCommentSubmit }) {
   const [comment, setComment] = useState('');
   const [friendReviews, setFriendReviews] = useState([]); // New state variable for friend reviews
 
-  const { loading, data } = useQuery(GET_FRIEND_REVIEWS, {
+  const { loading, data } = useQuery(QUERY_FRIEND_REVIEWS, {
     // Pass any needed variables here
   });
 

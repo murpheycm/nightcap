@@ -6,18 +6,22 @@ const profileSchema = new Schema({
     ref: "User",
     required: true,
   },
-  firstName: {
-    type: String,
-  },
-  lastName: {
-    type: String,
-  },
   bio: {
     type: String,
+    maxlength: 500,
   },
-  profileImage: String,
+  birthday: {
+    type: Date,
+  },
+  location: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
+  image: String,
 });
 
 const Profile = model("Profile", profileSchema);
 
-module.exports = profileSchema;
+module.exports = Profile;

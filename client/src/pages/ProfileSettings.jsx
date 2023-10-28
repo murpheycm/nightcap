@@ -3,7 +3,16 @@ import UploadPicture from "../components/UploadPicture";
 
 function UploadProfile() {
   // Define user data using state
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    bio: "",
+    birthday: "",
+    location: "",
+    country: "",
+  });
 
   // Handle form field changes
   const handleInputChange = (e) => {
@@ -22,7 +31,7 @@ function UploadProfile() {
       <h2>Profile Settings</h2>
       <form onSubmit={handleSubmit}>
         <div className="profile-settings">
-          <div className="profile-picture">
+          <div className="profileImage">
             <h3>Profile Picture</h3>
             <UploadPicture />
           </div>
@@ -57,11 +66,55 @@ function UploadProfile() {
             />
           </div>
 
-          {/* Add more profile settings fields as needed */}
-        </div>
+          <div className="lastName">
+            <h3>Last Name</h3>
+            <input
+              type="text"
+              name="lastName"
+              value={user.lastName}
+              onChange={handleInputChange}
+            />
+          </div>
 
-        <div className="update-settings">
-          <h2>Update Settings</h2>
+          <div className="bio">
+            <h3>About Me</h3>
+            <input
+              type="text"
+              name="bio"
+              value={user.bio}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="birthday">
+            <h3>Birthday</h3>
+            <input
+              type="text"
+              name="birthday"
+              value={user.location}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="country">
+            <h3>Location</h3>
+            <input
+              type="text"
+              name="location"
+              value={user.location}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="lastName">
+            <h3>Country</h3>
+            <input
+              type="text"
+              name="country"
+              value={user.country}
+              onChange={handleInputChange}
+            />
+          </div>
 
           <div className="change-password">
             <h3>Change Password</h3>

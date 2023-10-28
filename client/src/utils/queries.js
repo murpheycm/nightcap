@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const QUERY_USER = gql`
+export const QUERY_PROFILE = gql`
   query getUser($username: String!) {
     user(username: $username) {
       _id
@@ -8,8 +8,6 @@ export const QUERY_USER = gql`
       email
       profile {
         _id
-        firstName
-        lastName
         bio
         profileImage
       }
@@ -31,7 +29,7 @@ export const QUERY_USER = gql`
 `;
 
 // left this super simple for now - if we wanted a simple list of all users
-export const QUERY_ALL_USERS = gql`
+export const QUERY_USERS = gql`
   query getUsers {
     users {
       _id
@@ -44,7 +42,7 @@ export const QUERY_ALL_USERS = gql`
 `;
 
 
-export const QUERY_FRIEND_REVIEWS = gql`
+export const QUERY_BUSINESS = gql`
   query getFriendsReviews($username: String!) {
     getFriendsReviews(username: $username) {
       _id
@@ -70,7 +68,7 @@ export const QUERY_FRIEND_REVIEWS = gql`
   }
 `;
 
-export const QUERY_USER_REVIEWS = gql`
+export const QUERY_BUSINESSES = gql`
   query getUserReviews($username: String!) {
     getUserReviews(username: $username) {
       _id
@@ -100,7 +98,6 @@ export const QUERY_REVIEW = gql`
   query getReview($reviewId: ID!) {
     review(reviewId: $reviewId) {
       _id
->>>>>>> dev
       user {
         _id
         username

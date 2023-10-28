@@ -18,8 +18,8 @@ const commentSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        required: true,
     },
 });
 
-module.exports = commentSchema;
+const Comment = model("Comment", commentSchema);
+module.exports = Comment;
