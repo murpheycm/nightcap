@@ -1,19 +1,102 @@
 import {
+    ADD_USER,
+    UPDATE_USER,
+    ADD_BUSINESS,
+    UPDATE_BUSINESS,
+    REMOVE_BUSINESS,
+    LIKE_BUSINESS,
+    UNLIKE_BUSINESS,
+    ADD_PROFILE,
+    UPDATE_PROFILE,
+    ADD_COCKTAIL,
+    UPDATE_COCKTAIL,
+    REMOVE_COCKTAIL,
+    ADD_REVIEW,
+    UPDATE_REVIEW,
+    REMOVE_REVIEW,
     ADD_COMMENT,
     UPDATE_COMMENT,
     REMOVE_COMMENT,
     ADD_CHEERS,
     REMOVE_CHEERS,
-    ADD_REVIEW,
-    UPDATE_REVIEW,
-    REMOVE_REVIEW,
-    ADD_COCKTAIL,
-    UPDATE_COCKTAIL,
-    REMOVE_COCKTAIL,
+    ADD_TAG,
+    ADD_FRIEND,
+    ACCEPT_FRIEND_REQUEST,
+    REMOVE_FRIEND,
   } from './action';
   
   export const reducer = (state, action) => {
     switch (action.type) {
+      case ADD_USER:
+        return {
+         ...state,
+          // Add a new user to the users array
+          users: [...state.users, action.user],
+        };
+
+      case UPDATE_USER:
+        return{
+          ...state,
+          users: state.users.map(user =>
+            user.id === action.user.id ? action.user : user
+          ),
+        };
+
+      case ADD_BUSINESS:
+        return {
+         ...state,
+          // Add a new business to the businesses array
+          businesses: [...state.businesses, action.business],
+        };
+
+      case UPDATE_BUSINESS:
+        return {
+          ...state,
+          // Update a business in the businesses array
+          businesses: state.businesses.map(business =>
+            business.id === action.business.id? action.business : business
+          ),
+        };
+      
+        case REMOVE_BUSINESS:
+          return {
+              ...state,
+              businesses: state.businesses.filter(business => business.id !== action.businessId),
+          };
+
+      case LIKE_BUSINESS:
+        return {
+          ...state,
+          // Update the liked status of a business
+          businesses: state.businesses.map(business =>
+            business.id === action.business.id? action.business : business
+          ),
+        };
+
+      case UNLIKE_BUSINESS:
+        return {
+          ...state,
+          // Update the liked status of a business
+          businesses: state.businesses.map(business =>
+            business.id === action.business.id ? action.business : business
+          ),
+        };
+      
+      case ADD_PROFILE:
+        return {
+         ...state,
+          // Add a new profile to the profiles array
+          profiles: [...state.profiles, action.profile],
+        };
+
+      case UPDATE_PROFILE:
+        return {
+          // Update a profile in the profiles array
+          profiles: state.profiles.map(profile =>
+            profile.id === action.profile.id? action.profile : profile
+          ),
+        };
+
       case ADD_COMMENT:
         return {
           ...state,
@@ -97,7 +180,35 @@ import {
           cocktails: state.cocktails.filter(cocktail => cocktail.id !== action.cocktailId),
         };
 
-  
+      case ADD_TAG:
+        return {
+         ...state,
+          // Add a new tag to the tags array
+          tags: [...state.tags, action.tag],
+        };
+
+      case ADD_FRIEND:
+        return {
+        ...state,
+          // Add a new friend to the friends array
+          friends: [...state.friends, action.friend],
+        };
+
+      case ACCEPT_FRIEND_REQUEST:
+        return {
+          ...state,
+          // Update the status of a friend request to "accepted"
+          friends: state.friends.map(friend =>
+            friend.id === action.friend.id ? { ...friend, status: 'accepted' } : friend
+          ),
+        };
+      
+      case REMOVE_FRIEND:
+        return {
+         ...state,
+          // Remove a friend from the friends array
+          friends: state.friends.filter(friend => friend.id!== action.friendId),
+        };
       // This saves us from a crash.
       default:
         return state;

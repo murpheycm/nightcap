@@ -21,7 +21,7 @@ const businessSchema = new Schema({
     type: String,
     maxlength: 500,
   },
-  likedByUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
   image: [String],
   website: String,
   location: String,
