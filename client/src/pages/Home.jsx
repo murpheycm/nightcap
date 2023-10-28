@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { useState } from 'react';
+
 import UserReviews from '../components/UserReviews';
+
 
 function FriendReviews({ review }) {
   const [showCommentForm, setShowCommentForm] = useState(false);

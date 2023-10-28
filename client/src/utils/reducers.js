@@ -1,96 +1,103 @@
 import {
     ADD_COMMENT,
+    UPDATE_COMMENT,
+    REMOVE_COMMENT,
+    ADD_CHEERS,
+    REMOVE_CHEERS,
     ADD_REVIEW,
-    ADD_TO_CART,
-    UPDATE_CART_QUANTITY,
-    REMOVE_FROM_CART,
-    ADD_MULTIPLE_TO_CART,
-    UPDATE_CATEGORIES,
-    UPDATE_CURRENT_CATEGORY,
-    CLEAR_CART,
-    TOGGLE_CART,
+    UPDATE_REVIEW,
+    REMOVE_REVIEW,
+    ADD_COCKTAIL,
+    UPDATE_COCKTAIL,
+    REMOVE_COCKTAIL,
   } from './action';
   
-  // The reducer is a function that accepts the current state and an action. It returns a new state based on that action.
   export const reducer = (state, action) => {
     switch (action.type) {
-      // Returns a copy of state with an update products array. We use the action.products property and spread it's contents into the new array.
       case ADD_COMMENT:
         return {
           ...state,
+          // Add a new comment to the comments array
           comments: [...state.comments, action.comment],
         };
+
+      case UPDATE_COMMENT:
+        return {
+          ...state,
+          // Update a comment in the comments array
+          comments: state.comments.map(comment =>
+            comment.id === action.comment.id ? action.comment : comment
+          ),
+        };
+
+      case REMOVE_COMMENT:
+        return {
+          ...state,
+          // Remove a comment from the comments array
+          comments: state.comments.filter(comment => comment.id !== action.commentId),
+        };
+  
+      case ADD_CHEERS:
+        return {
+          ...state,
+          // Add a new cheer to the reactions array
+          reactions: [...state.reactions, action.cheers],
+        };      
+    
+      case REMOVE_CHEERS:
+        return {
+          ...state,
+           // Remove a cheer from the reactions array
+          reactions: state.reactions.filter(cheers => cheers.id !== action.cheersId),
+        };
+
       case ADD_REVIEW:
         return {
           ...state,
+          // Add a new review to the reviews array
           reviews: [...state.reviews, action.review],
-        };    
-      case ADD_TO_CART:
-        return {
-          ...state,
-          cartOpen: true,
-          cart: [...state.cart, action.product],
         };
-      case ADD_MULTIPLE_TO_CART:
+
+      case UPDATE_REVIEW:
         return {
           ...state,
-          cart: [...state.cart, ...action.products],
+          // Update a review in the reviews array
+          reviews: state.reviews.map(review =>
+            review.id === action.review.id ? action.review : review
+          ),
         };
-      // Returns a copy of state, sets the cartOpen to true and maps through the items in the cart.
-      // If the item's `id` matches the `id` that was provided in the action.payload, we update the purchase quantity.
-      case UPDATE_CART_QUANTITY:
+        
+      case REMOVE_REVIEW:
         return {
           ...state,
-          cartOpen: true,
-          cart: state.cart.map((product) => {
-            if (action._id === product._id) {
-              product.purchaseQuantity = action.purchaseQuantity;
-            }
-            return product;
-          }),
+          // Remove a review from the reviews array
+          reviews: state.reviews.filter(review => review.id !== action.reviewId),
+        };  
+
+      case ADD_COCKTAIL:
+        return {
+          ...state,
+          // Add a new cocktail to the cocktails array
+          cocktails: [...state.cocktails, action.cocktail],
         };
-  
-      // First we iterate through each item in the cart and check to see if the `product._id` matches the `action._id`
-      // If so, we remove it from our cart and set the updated state to a variable called `newState`
-      case REMOVE_FROM_CART:
-        let newState = state.cart.filter((product) => {
-          return product._id !== action._id;
-        });
-  
-        // Then we return a copy of state and check to see if the cart is empty.
-        // If not, we set the cartOpen status to  `true`. Then we return an updated cart array set to the value of `newState`.
+      
+      case UPDATE_COCKTAIL:
         return {
           ...state,
-          cartOpen: newState.length > 0,
-          cart: newState,
+          // Update a cocktail in the cocktails array
+          cocktails: state.cocktails.map(cocktail =>
+            cocktail.id === action.cocktail.id ? action.cocktail : cocktail
+          ), 
         };
   
-      case CLEAR_CART:
+      case REMOVE_COCKTAIL:
         return {
           ...state,
-          cartOpen: false,
-          cart: [],
+          // Remove a cocktail from the cocktails array
+          cocktails: state.cocktails.filter(cocktail => cocktail.id !== action.cocktailId),
         };
+
   
-      case TOGGLE_CART:
-        return {
-          ...state,
-          cartOpen: !state.cartOpen,
-        };
-  
-      case UPDATE_CATEGORIES:
-        return {
-          ...state,
-          categories: [...action.categories],
-        };
-  
-      case UPDATE_CURRENT_CATEGORY:
-        return {
-          ...state,
-          currentCategory: action.currentCategory,
-        };
-  
-      // Return the state as is in the event that the `action.type` passed to our reducer was not accounted for by the developers
       // This saves us from a crash.
       default:
         return state;
