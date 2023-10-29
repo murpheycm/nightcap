@@ -17,6 +17,7 @@ const UserProvider = ({ value = [], ...props }) => {
     reaction: [],
     reviews: [],
     tags: [],
+    badges: [],
   });
 
   return <Provider value={[state, dispatch]} {...props} />;

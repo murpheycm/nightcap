@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import UploadPicture from "../components/UploadPicture";
-import TextField from "@mui/material/TextField";
-import List from "../components/CocktailSearch";
-// import Select from "react-select";
+import Select from "react-select";
+import { ADD_COCKTAIL } from "../utils/mutations";
+import { useUserContext } from "../utils/GlobalState";
 
 function UploadCocktail() {
   const [cocktailData, setCocktailData] = useState({
@@ -18,6 +18,8 @@ function UploadCocktail() {
     { label: "Tag3", value: "Tag3" },
     // Add more available tags as needed
   ];
+
+  const [state, dispatch] = useUserContext(); // Get the state and dispatch function from the context
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,16 +37,24 @@ function UploadCocktail() {
   };
 
   const handleTagsChange = (selectedTags) => {
+    const selectedTagValues = selectedTags.map((tag) => tag.value);
     setCocktailData({
       ...cocktailData,
-      tags: selectedTags,
+      tags: selectedTagValues,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here, you can send the cocktailData to your server or perform other actions with it.
-    console.log(cocktailData);
+
+    // Create an action object with type and payload
+    const action = {
+      type: ADD_COCKTAIL,
+      payload: cocktailData,
+    };
+
+    // Dispatch the action to update the global state
+    dispatch(action);
   };
 
   return (
@@ -76,10 +86,12 @@ function UploadCocktail() {
         </div>
         <div>
           <label>Select Tags for your cocktail:</label>
-          <TextField
+          <Select
             isMulti
             options={availableTags}
-            value={cocktailData.tags}
+            value={availableTags.filter((tag) =>
+              cocktailData.tags.includes(tag.value)
+            )}
             onChange={handleTagsChange}
           />
         </div>

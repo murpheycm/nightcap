@@ -33,6 +33,10 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Profile',
     },
+    badges: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Badge',
+    }],
     likedBusinesses: [{
       type: Schema.Types.ObjectId,
       ref: 'Business',
@@ -45,12 +49,10 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Cocktail',
     }],  
-    friends: [
-      {
+    friends: [{
         type: Schema.Types.ObjectId,
         ref: 'Friends',
-      }
-    ]
+      }]
   },
   // set this to use virtual below
   {

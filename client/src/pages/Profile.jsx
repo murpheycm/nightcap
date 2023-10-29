@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
 import UserReviews from '../components/UserReviews';
+import Badges from '../components/Badges';
 
 const Profile = ({ username }) => {
   const { loading, error, data } = useQuery(QUERY_USER, {
@@ -30,6 +31,7 @@ const Profile = ({ username }) => {
             username={user.username}
         />
       </div>
+        <Badges badges={user.badges} userId={user.id} />
       <div>
         
       </div>

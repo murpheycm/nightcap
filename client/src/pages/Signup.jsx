@@ -14,7 +14,7 @@ function Signup(props) {
     username: '',
     confirmPassword: '',
   });
-  const [showPassword, setShowPassword] = useState(false);
+  const [showFields, setShowFields] = useState(false);
   const [addUser] = useMutation(ADD_USER);
 
   const handleFormSubmit = async (event) => {
@@ -46,8 +46,8 @@ function Signup(props) {
     });
   };
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
+  const toggleShowFields = () => {
+    setShowFields(!showFields);
   };
 
   return (
@@ -95,33 +95,30 @@ function Signup(props) {
             onChange={handleChange}
           />
         </div>
-        <div className="flex-row space-between my-2">
+        <div className={`flex-row space-between my-2 ${showFields ? 'show' : 'hide'}`}>
           <label htmlFor="password">Password:</label>
           <input
             placeholder="******"
             name="password"
-            type={showPassword ? 'text' : 'password'}
+            type={showFields? 'text' : 'password'}
             id="password"
             onChange={handleChange}
           />
-          <button type="button" onClick={toggleShowPassword}>
-            {showPassword ? 'Hide' : 'Show'}
-          </button>
         </div>
-        <div className="flex-row space-between my-2">
+        <div className={`flex-row space-between my-2 ${showFields ? 'show' : 'hide'}`}>
           <label htmlFor="confirmPassword">Confirm Password:</label>
           <input
             placeholder="******"
             name="confirmPassword"
-            type={showPassword ? 'text' : 'confirmPassword'}
+            type={showFields? 'text' : 'password'}
             id="confirmPassword"
             onChange={handleChange}
           />
-          <button type="button" onClick={toggleShowPassword}>
-            {showPassword ? 'Hide' : 'Show'}
-          </button>
         </div>
         <div className="flex-row flex-end">
+          <button type="button" onClick={toggleShowFields}>
+            {showFields ? 'Hide' : 'Show'}
+          </button>
           <button type="submit">Submit</button>
         </div>
       </form>

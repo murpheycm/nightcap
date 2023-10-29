@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./searchBar.css";
-import SearchIcon from "@material-ui/icons/Search";
-import CloseIcon from "@material-ui/icons/Close";
+import { BiSearchAlt } from 'react-icons/bi';
+import { AiOutlineClose } from 'react-icons/ai';
 import { Link } from "react-router-dom";
 
 function SearchBar({placeholder, data}) {
@@ -31,7 +31,7 @@ function SearchBar({placeholder, data}) {
           <div className="searchInputs">
             <input type="text" placeholder={placeholder} value={wordEntered} onChange={handleFilter} />
             <div className="searchIcon">
-              {filteredData.length > 0 ? <SearchIcon /> : <CloseIcon id="clearBtn" onClick={clearInput} />}
+              {filteredData.length > 0 ? <BiSearchAlt /> : <AiOutlineClose id="clearBtn" onClick={clearInput} />}
             </div>
           </div>
           {filteredData.length !== 0 && (
