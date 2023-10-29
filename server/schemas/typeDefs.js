@@ -9,6 +9,7 @@ const typeDefs = gql`
         lastName: String!
         profile: Profile
         likedBusinesses: [Business]
+        badges: [Badge]
         reviews: [Review]
         cocktails: [Cocktail]
         friends: [Friends]
@@ -110,6 +111,14 @@ const typeDefs = gql`
         user: User
     }
 
+    type Badge {
+        _id: ID!
+        name: String!
+        description: String!
+        image: String!
+        criteria: String!
+    }
+
     type Query {
         user(_id: ID!): User
         users: [User]
@@ -130,6 +139,7 @@ const typeDefs = gql`
         comments: [Comment]
         cheers(_id: ID!): Cheers
         friends: [Friends]
+        badges: [Badge]
     }
 
     type Mutation {

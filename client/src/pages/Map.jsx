@@ -1,3 +1,12 @@
-import React, { useState } from "react";
-import { useMutation } from '@apollo/client';
-import { Link } from 'react-router-dom';
+import React from 'react';
+
+const Map = () => {
+  return (
+    <div>
+      <h2>Map Placeholder</h2>
+      <p>This is where your map component will be displayed.</p>
+    </div>
+  );
+};
+
+export default Map;

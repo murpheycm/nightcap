@@ -1,35 +1,22 @@
 import { useQuery } from '@apollo/client';
 import { useState } from 'react';
 
-import UserReviews from '../components/UserReviews';
+import UserReviews from '../components/UserReviews'; // Import UserReviews component
 
-
-function FriendReviews({ review }) {
-  const [showCommentForm, setShowCommentForm] = useState(false);
-
-  const handleCommentClick = () => {
-    setShowCommentForm(true);
-  };
-
-  const handleCloseCommentForm = () => {
-    setShowCommentForm(false);
-  };
+function Home() {
+  // Fetch friends' recent reviews data, e.g., using a GraphQL query
 
   return (
     <div>
-        <div>
+      <h2>Friends Recent Reviews</h2>
         <UserReviews
-        review={review}
-            onCommentSubmit={handleCommentSubmit}
-            isFriendsReviews={true}
-            username={review.username}
+          key={review.id}
+          review={review}
+          isFriendsReviews={true}
+          username={review.username}
         />
-        </div>
-        <div>
-
-        </div>
     </div>
   );
 }
 
-export default FriendReviews;
+export default Home;

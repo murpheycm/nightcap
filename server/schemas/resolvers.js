@@ -9,6 +9,7 @@ const resolvers = {
           .select("-__v -password")
           .populate("profile")
           .populate("friends")
+          .populate("badges")
           .populate("cocktails")
           .populate("reviews");
         return userData;
@@ -29,6 +30,14 @@ const resolvers = {
           .populate("cocktails")
           .populate("reviews");
           return businessData;
+      }
+      throw AuthenticationError;
+    },
+    badges: async (parent, { _id }, context) => {
+      if (context.user) {
+        const badgesData = await Badge.find({ _id })
+         .select("-__v -password");
+          return badgesData;
       }
       throw AuthenticationError;
     },
@@ -499,25 +508,25 @@ const resolvers = {
           throw new Error('Failed to add a friend.');
         }
     },
-    acceptFriendRequest: async (parent, args, context) => {
+    acceptFriendRequest: async (parent, { friendshipId }, context) => {
       if (!context.user) {
         throw new AuthenticationError('You must be logged in to accept a friend request.');
       }
-
+    
       try {
-        const friendship = await Friends.findByIdAndUpdate(friendshipId);
-
+        const friendship = await Friends.findByIdAndUpdate(friendshipId, { status: 'accepted' }, { new: true });
+    
         if (!friendship) {
           throw new Error('Failed to accept friend request.');
         }
-
-        if (friendship.user.toString() !== context.user._id.toString() && friendship.friend.toString () !== context.user.id.toString()) {
+    
+        if (
+          friendship.user.toString() !== context.user._id.toString() &&
+          friendship.friend.toString() !== context.user._id.toString()
+        ) {
           throw new AuthenticationError('You are not authorized to accept this friend request.');
         }
-
-        friendship.status = "accepted";
-        await frienship.save();
-
+    
         return friendship;
       } catch (error) {
         console.error(error);

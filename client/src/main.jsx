@@ -4,7 +4,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './App.jsx';
 // import Business from './pages/Business';
-import Cocktails from './pages/Cocktails';
 import Home from './pages/Home';
 import Error from './pages/Error';
 import Login from './pages/Login';
@@ -13,14 +12,14 @@ import PostReview from './pages/PostReview';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 // import Profile from './pages/Profile';
-import ProfileSettings from './pages/ProfileSettings';
+import AccountSettings from './pages/AccountSettings';
 // import PostReview from './pages/PostReview';
 import UploadCocktail from './pages/UploadCocktail';
 // import Cocktails from './pages/Cocktails';
-
 import Cocktail from './pages/Cocktail';
 import Business from './pages/Business';
 import Tags from './pages/Tags';
+import LandingPage from './pages/LandingPage';
 
 const router = createBrowserRouter([
   {
@@ -30,8 +29,12 @@ const router = createBrowserRouter([
     children: [
       {
         index: true, 
-        element: <Home />
+        element: <LandingPage />
       }, 
+      {
+        path: '/home',
+        element: <Home />
+      },
       {
         path: '/login',
         element: <Login />
@@ -45,10 +48,6 @@ const router = createBrowserRouter([
         element: <PostReview />
       }, 
       {
-        path: '/profile',
-        element: <Profile />
-      }, 
-      {
         path: '/signup',
         element: <Signup />
       }, 
@@ -58,22 +57,18 @@ const router = createBrowserRouter([
       }, 
       {
         path: '/account/settings',
-        element: <ProfileSettings />
+        element: <AccountSettings />
       }, 
       {
         path: '/cocktail/:id/post-review',
         element: <PostReview />
       }, 
       {
-        path: '/upload-cocktail',
+        path: '/cocktails/upload',
         element: <UploadCocktail />
       }, 
       {
-        path: '/cocktails',
-        element: <Cocktails />
-      }, 
-      {
-        path: '/cocktail/:id',
+        path: '/cocktails/:id',
         element: <Cocktail />
       }, 
       {

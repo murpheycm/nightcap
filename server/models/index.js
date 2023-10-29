@@ -7,5 +7,6 @@ const Tag = require('./Tag');
 const Comment = require('./Comment');
 const Cheers = require('./Cheers');
 const Friends = require('./Friends');
+const Badge = require('./Badge');
 
-module.exports = { User, Profile, Review, Cocktail, Tag, Comment, Cheers, Friends, Business };
+module.exports = { User, Profile, Review, Cocktail, Tag, Comment, Cheers, Friends, Business, Badge };
