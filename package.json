@@ -17,6 +17,8 @@
     "firebase": "^10.5.0"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^8.2.2",
+    "postcss": "^8.4.31"
   }
 }

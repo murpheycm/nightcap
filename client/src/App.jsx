@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, BrowserRouter } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -7,7 +7,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import Nav from './components/Nav';
+import { About, Hero, Navbar, Badges } from './components';
 import { UserProvider } from './utils/GlobalState';
 
 const httpLink = createHttpLink({
@@ -39,4 +39,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
