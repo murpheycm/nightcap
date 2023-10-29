@@ -1,0 +1,12 @@
+.upload {
+    width: 50vw;
+    height: auto;
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+  }
+  
+  img {
+    width: 300px;
+    margin: 10px;
+  }

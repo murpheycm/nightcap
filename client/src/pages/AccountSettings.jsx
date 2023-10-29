@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import UploadPicture from "../components/UploadPicture";
+import UploadPicture from "../components/UploadImage";
 import Auth from "../utils/auth";
 
 function UploadProfile() {

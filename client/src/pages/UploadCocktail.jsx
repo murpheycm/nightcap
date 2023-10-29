@@ -1,15 +1,18 @@
-import React, { useState, useContext } from "react";
-import UploadPicture from "../components/UploadPicture";
+import React, { useState, useEffect } from "react";
+import UploadImage from "../components/UploadImage";
 import Select from "react-select";
 import { ADD_COCKTAIL } from "../utils/mutations";
 import { useUserContext } from "../utils/GlobalState";
 
 function UploadCocktail() {
-  const [cocktailData, setCocktailData] = useState({
+  const [uploadedImageUrls, setUploadedImageUrls] = useState([]); // Store the uploaded image URLs
+  const [selectedImages, setSelectedImages] = useState([]); // Store the selected image URLs
+    const [cocktailData, setCocktailData] = useState({
     name: "",
+    busines: "",
     description: "",
-    image: null,
     tags: [],
+    images: [],
   });
 
   const availableTags = [
@@ -19,7 +22,7 @@ function UploadCocktail() {
     // Add more available tags as needed
   ];
 
-  const [state, dispatch] = useUserContext(); // Get the state and dispatch function from the context
+  const [state, dispatch] = useUserContext();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,11 +32,17 @@ function UploadCocktail() {
     });
   };
 
-  const handleImageChange = (imageFile) => {
+  // Function to handle image URLs received from child component
+  const handleImageUploaded = (urls) => {
     setCocktailData({
-      ...cocktailData,
-      image: imageFile,
-    });
+        ...cocktailData,
+        images: urls,
+    });// Store the uploaded image URLs
+  };
+
+  const handleUpload = () => {
+    console.log("Selected Images: ", selectedImages);
+    console.log("Uploaded Images: ", uploadedImageUrls);
   };
 
   const handleTagsChange = (selectedTags) => {
@@ -50,7 +59,11 @@ function UploadCocktail() {
     // Create an action object with type and payload
     const action = {
       type: ADD_COCKTAIL,
-      payload: cocktailData,
+      payload: {
+        ...cocktailData,
+        // Add the uploaded image URLs to the payload
+        images: uploadedImageUrls,
+      },
     };
 
     // Dispatch the action to update the global state
@@ -82,7 +95,7 @@ function UploadCocktail() {
         </div>
         <div>
           <label>Image:</label>
-          <UploadPicture onImageChange={handleImageChange} />
+          <UploadImage onImageUploaded={handleImageUploaded} />
         </div>
         <div>
           <label>Select Tags for your cocktail:</label>
@@ -95,7 +108,9 @@ function UploadCocktail() {
             onChange={handleTagsChange}
           />
         </div>
-        <button type="submit">Upload</button>
+        <button type="submit" onClick={handleUpload}>
+          Upload Cocktail
+        </button>
       </form>
     </div>
   );

@@ -4,6 +4,7 @@ import { getStorage} from 'firebase/storage';
 const firebaseConfig = initializeApp ({
     apiKey: "AIzaSyATd-cXIDX-3YQV-rZU4XTAuu1hYUExl60",
     authDomain: "nightcap-24dad.firebaseapp.com",
+
     projectId: "nightcap-24dad",
     storageBucket: "nightcap-24dad.appspot.com",
     messagingSenderId: "490604626131",
