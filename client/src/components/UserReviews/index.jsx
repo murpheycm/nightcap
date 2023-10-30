@@ -1,7 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useUserContext } from '../../utils/GlobalState';
-import { ADD_COMMENT } from '../../utils/action'; 
-import { FaGlassMartini } from'react-icons/fa';
+import { useQuery } from '@apollo/client';
+import { QUERY_USER } from '../../utils/queries';
+import { idbPromise } from '../../utils/helpers'; 
+import { FaGlassMartini } from 'react-icons/fa';
+import { 
+  ADD_COMMENT,
+  UPDATE_COMMENT,
+  REMOVE_COMMENT,
+  ADD_CHEERS,
+  REMOVE_CHEERS,
+} from '../../utils/action';
 
 function UserReviews({ type, review, comments, loading, cheers }) {
   const [showCommentForm, setShowCommentForm] = useState(false);
@@ -120,7 +129,7 @@ function UserReviews({ type, review, comments, loading, cheers }) {
         )}
       </div>
       <div>
-        {visibleReviews < reviews.length && (
+        {visibleReviews < review.length && (
           <button onClick={loadMoreReviews}>Show More</button>
         )}
       </div>

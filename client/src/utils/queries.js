@@ -184,6 +184,35 @@ import { gql } from "@apollo/client";
 //   }
 // `;
 
+// export const QUERY_FRIEND_REVIEWS = gql`
+//   query getFriendReviews {
+//     friendReviews {
+//       _id
+//       title
+//       createdAt
+//       user {
+//         _id
+//         username
+//       }
+//       review{
+//         cocktail{
+//           _id
+//           name
+//         }
+//         title
+//         text
+//         image
+//         thumbUpCount
+//         thumbDownCount
+//         comments {
+//           _id
+//           comment
+//           createdAt
+//       }
+//     }
+//   }
+// `;
+
 // export const QUERY_ALL_COCKTAILS = gql`
 //   query getCocktails {
 //     cocktails {

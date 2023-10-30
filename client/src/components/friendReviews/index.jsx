@@ -1,13 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useUserContext } from '../../utils/GlobalState';
 import { useQuery } from '@apollo/client';
-import { GET_FRIEND_REVIEWS } from '../utils/queries'; // Import your GraphQL query
+import { QUERY_USER } from '../../utils/queries';
+import { idbPromise } from '../../utils/helpers';
+import { 
+  ADD_COMMENT,
+  UPDATE_COMMENT,
+  REMOVE_COMMENT,
+  ADD_CHEERS,
+  REMOVE_CHEERS,
+} from '../../utils/action';
+
 
 function FriendReview({ review, onCommentSubmit }) {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [comment, setComment] = useState('');
   const [friendReviews, setFriendReviews] = useState([]); // New state variable for friend reviews
 
-  const { loading, data } = useQuery(QUERY_FRIEND_REVIEWS, {
+  const { loading, data } = useQuery(QUERY_USER, {
     // Pass any needed variables here
   });
 

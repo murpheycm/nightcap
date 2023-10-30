@@ -1,20 +1,56 @@
-import { useQuery } from '@apollo/client';
-import { useState } from 'react';
-
-import UserReviews from '../components/UserReviews'; // Import UserReviews component
+import UserProfilePicture from '../components/userProfilePicture';
+import FriendReview from '../components/friendReviews';
+import UserReviews from '../components/UserReviews';
 
 function Home() {
-  // Fetch friends' recent reviews data, e.g., using a GraphQL query
-
   return (
     <div>
-      <h2>Friends Recent Reviews</h2>
-        <UserReviews
-          key={review.id}
-          review={review}
-          isFriendsReviews={true}
-          username={review.username}
-        />
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridGap: 20 }}>
+      <div>
+        <aside>
+          <h1>Hello, Mack </h1>
+          {/* <UserProfilePicture /> */}
+          <table>
+            <tr>
+              <th>Friends</th>
+              <th>Badges</th>
+            </tr>
+            <tr>
+              <th>5</th>
+              <th>3</th>
+            </tr>
+            <tr>
+              <th>Reviews</th>
+              <th>Likes</th>
+            </tr>
+            <tr>
+              <th>8</th>
+              <th>7</th>
+            </tr>
+          </table>
+        </aside>
+      </div>
+        {/* <div>
+          <h2>Your Reviews</h2>
+            {/* <UserReviews
+              // key={reviews.id}
+              type= "reviews"
+              reviews={userReviews}
+              // isFriendsReviews={true}
+              // username={reviews.username}
+            /> 
+        </div> */}
+        <div>
+          <h2>What Your Friends are Drinking:</h2>
+            <FriendReview
+              key={reviews.id}
+              type= "reviews"
+              reviews={userReviews}
+              isFriendsReviews={true}
+              username={reviews.username}
+            />
+        </div>
+      </div>
     </div>
   );
 }

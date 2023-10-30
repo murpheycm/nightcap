@@ -1,5 +1,5 @@
 const db = require('./connection');
-const { User, Cocktail, Comment, Reaction } = require('../models');
+const { User, Cocktail, Review, Comment, Cheers } = require('../models');
 const cleanDB = require('./cleanDB');
 
 db.once('open', async () => {
@@ -23,45 +23,48 @@ db.once('open', async () => {
     { name: 'Absinthe' },
     { name: 'Sake' },
   ]);
-
   console.log('cocktails seeded');
 
-  const comments = await Comment.insertMany([
+
+  const reviews = await Review.insertMany([
     {
-      author: user._id,
-      date: Date.now(),
-      comment:
-        'A delicious concotion!',
+      user: user._id,
       cocktail: cocktails[0]._id,
+      title: 'Gin and Lime',
+      text: 'A wonderful cocktail and simple!',
+      rating: 3,
+      image: '',
+      comments: [],
+      cheers: [],
+      createdAt: Date,
     },
     {
-      author: user._id,
-      date: Date.now(),
-      comment:
-        'A delicious concotion!',
+      user: user._id,
       cocktail: cocktails[0]._id,
+      title: 'Stormy Weather',
+      text: 'Not for the faint of heart!',
+      rating: 5,
+      image: '',
+      comments: [],
+      cheers: [],
+      createdAt: Date,
     },
   ]);
-
   console.log('comments seeded');
 
+
   await User.create({
-    firstName: 'Pamela',
-    lastName: 'Washington',
-    email: 'pamela@testmail.com',
-    password: 'password12345',
-    orders: [
-      {
-        products: [products[0]._id, products[0]._id, products[1]._id]
-      }
-    ]
+    firstName: 'Jon',
+    lastName: 'Doe',
+    email: 'jon@testmail.com',
+    password: 'password123',
   });
 
   await User.create({
-    firstName: 'Elijah',
-    lastName: 'Holt',
-    email: 'eholt@testmail.com',
-    password: 'password12345'
+    firstName: 'mack',
+    lastName: 'murph',
+    email: 'mack@testmail.com',
+    password: 'password123'
   });
 
   console.log('users seeded');
