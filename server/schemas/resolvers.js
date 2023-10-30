@@ -1,4 +1,4 @@
-const { Business, Cheers, Cocktail, Comment, Friends, Profile, Review, Tag, User } = require("../models");
+const { Business, Cheers, Cocktail, Comment, Friends, Profile, Review, Tag, User, Allergen } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
@@ -198,6 +198,21 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
+    allergen: async (parent, { _id }, context) => {
+      if (context.user) {
+        const allergenData = await Allergen.findOne({ _id })
+        .select("-__v -password");
+        return allergenData;
+      }
+      throw AuthenticationError;
+    },
+    allergens: async (parent, args, context) => {
+      if (context.user) {
+        const allergenData = await Allergen.find({}).select("-__v -password");
+        return allergenData;
+      }
+      throw AuthenticationError;
+    },
   },
   //   images: async (parent, args, context) => {
   //     if (context.user) {
@@ -215,20 +230,27 @@ const resolvers = {
   //   },
   // },
   Mutation: {
-    addUser: async (parent, args, context) => {
-      if (context.user) {
-        throw new AuthenticationError('You are already logged in as a user.');
-      }
+    addUser: async (parent, args) => {
+      try {
+        const existingUser = await User.findOne({
+          $or: [{ username: args.username }, { email: args.email }],
+        });
   
-        try {
-          const user = await User.create(args);
-          const token = signToken(user);
-          return { user, token };
-        } catch (error) {
-          console.error(error);
-          throw new Error('Failed to create a user.');
+        if (existingUser) {
+          throw new Error("Username or email is already in use.");
         }
-      },
+  
+        // Proceed with user creation if no existing user is found
+        const user = await User.create(args);
+        const token = signToken(user);
+  
+        return { token, user };
+      } catch (error) {
+        // Handle the error, and possibly return a specific error message
+        console.error("Error creating user:", error);
+        throw new Error("Failed to create a user");
+      }
+    },
     updateUser: async (parent, args, context) => {
        if (!context.user) {
           throw new AuthenticationError('You must be logged in to update your user information.');
@@ -494,6 +516,25 @@ const resolvers = {
       } catch (error) {
         console.error(error);
         throw new Error('Failed to create a tag.');
+      }
+    },
+    addAllergen: async (parent, args, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You must be logged in to add an allergen.');
+      }
+
+      try {
+        const existingAllergen = await Allergen.findOne({ name: args.name });
+
+        if (existingAllergen) {
+          throw new Error('Allergen with the same name already exists.');
+        } else {
+          const allergenData = await Allergen.create(args);
+          return allergenData;
+        }
+      } catch (error) {
+        console.error(error);
+        throw new Error('Failed to create an allergen.');
       }
     },
     addFriend: async (parent, args, context) => {

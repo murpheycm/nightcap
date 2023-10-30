@@ -8,5 +8,6 @@ const Comment = require('./Comment');
 const Cheers = require('./Cheers');
 const Friends = require('./Friends');
 const Badge = require('./Badge');
+const Allergen = require('./Allergen');
 
-module.exports = { User, Profile, Review, Cocktail, Tag, Comment, Cheers, Friends, Business, Badge };
+module.exports = { User, Profile, Review, Cocktail, Tag, Comment, Cheers, Friends, Business, Badge, Allergen };

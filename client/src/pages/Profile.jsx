@@ -1,11 +1,11 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { QUERY_USER } from '../utils/queries';
+import { QUERY_USER_PROFILE } from '../utils/queries';
 import UserReviews from '../components/UserReviews';
 import Badges from '../components/Badges';
 
 const Profile = ({ username }) => {
-  const { loading, error, data } = useQuery(QUERY_USER, {
+  const { loading, error, data } = useQuery(QUERY_USER_PROFILE, {
     variables: { username },
   });
 

@@ -6,7 +6,13 @@
     flex-direction: column;
   }
   
+  .imgs {
+    display: flex;
+    flex-direction: row;
+  }
+
   img {
-    width: 300px;
+    height: 200px;
     margin: 10px;
   }
+

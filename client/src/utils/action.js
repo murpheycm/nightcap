@@ -31,6 +31,7 @@ export const ADD_CHEERS = "ADD_CHEERS";
 export const REMOVE_CHEERS = "REMOVE_CHEERS";
 
 export const ADD_TAG = "ADD_TAG";
+export const ADD_ALLERGEN = "ADD_ALLERGEN";
 
 export const ADD_FRIEND = "ADD_FRIEND";
 export const ACCEPT_FRIEND_REQUEST = "ACCEPT_FRIEND_REQUEST";

@@ -30,7 +30,6 @@ export const ADD_USER = gql`
       token
       user {
         _id
-        username
       }
     }
   }
@@ -134,7 +133,6 @@ export const ADD_COCKTAIL = gql`
 
 export const ADD_REVIEW = gql`
   mutation addReview(
-    $_id: ID!
     $user: ID!
     $cocktail: ID!
     $title: String!
@@ -143,7 +141,6 @@ export const ADD_REVIEW = gql`
     $image: [String]
   ) {
     addReview(
-      _id: $_id
       user: $user
       cocktail: $cocktail
       title: $title
@@ -151,7 +148,6 @@ export const ADD_REVIEW = gql`
       rating: $rating
       image: $image
     ) {
-      _id
       title
       text
       rating
@@ -163,18 +159,15 @@ export const ADD_REVIEW = gql`
 
 export const ADD_COMMENT = gql`
   mutation addComment(
-    $_id: ID!
     $review: ID!
     $user: ID!
     $comment: String!
   ) {
     addComment(
-      _id: $_id
       review: $review
       user: $user
       comment: $comment
     ) {
-      _id
       comment
       createdAt
     }
@@ -183,26 +176,29 @@ export const ADD_COMMENT = gql`
 
 export const ADD_CHEERS = gql`
   mutation addCheers(
-    $_id: ID!
     $user: ID!
     $comment: ID
     $review: ID
   ) {
     addCheers(
-      _id: $_id
       user: $user
       comment: $comment
       review: $review
-    ) {
-      _id
-    }
+    )
   }
 `;
 
 export const ADD_TAG = gql`
   mutation addTag($name: String!) {
     addTag(name: $name) {
-      _id
+      name
+    }
+  }
+`;
+
+export const ADD_ALLERGEN = gql`
+  mutation addAllergen($name: String!) {
+    addAllergen(name: $name) {
       name
     }
   }

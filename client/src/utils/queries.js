@@ -1,5 +1,26 @@
 import { gql } from "@apollo/client";
 
+
+export const QUERY_USER_PROFILE = gql`
+query getUser($username: String!) {
+  user(username: $username) {
+    _id
+    username
+    email
+    firstName  # Corrected the field name
+    lastName
+    profile {
+      _id
+      bio
+      profileImage
+      birthday
+      location
+      country
+    }
+  }
+}
+`;
+
   export const QUERY_USER = gql`
     query getUser($username: String!) {
           user(username: $username) {
@@ -27,6 +48,25 @@ import { gql } from "@apollo/client";
       }
     }
   `;
+
+  export const GET_ALLERGENS = gql`
+    query getAllergens {
+      allergens {
+        _id
+        name
+      }
+    }
+  `;
+
+  export const GET_TAGS = gql`
+    query getTags {
+      tags {
+        _id
+        name
+      }
+    }
+  `;
+
 
 // export const QUERY_HOME = gql`
 //   query getUser($username: String!) {

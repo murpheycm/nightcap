@@ -14,7 +14,7 @@ const cocktailSchema = new Schema({
         // required: true, // should this be required?
     },
     ingredients: [String],
-    allergens: [String],
+    allergens: [{ type: Schema.Types.ObjectId, ref: 'Allergen' }],
     reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
     business: { 

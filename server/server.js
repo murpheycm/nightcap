@@ -12,6 +12,10 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  formatError: (err) => {
+    console.log(err);
+    return error;
+  },
 });
 
 // Create a new instance of an Apollo server with the GraphQL schema
@@ -25,7 +29,11 @@ const startApolloServer = async () => {
   app.use('/images', express.static(path.join(__dirname, '../client/public/images')));
 
   app.use('/graphql', expressMiddleware(server, {
-    context: authMiddleware
+    context: authMiddleware,
+    customFormatErrorFn: (error) => {
+      console.error(error);
+      return error;
+    },
   }));
 
   if (process.env.NODE_ENV === 'production') {

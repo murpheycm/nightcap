@@ -7,7 +7,6 @@ const { Provider } = UserContext;
 
 const UserProvider = ({ value = [], ...props }) => {
   const [state, dispatch] = useReducer(reducer, {
-    user: [],
     business: [],
     cocktail: [],
     comments: [],

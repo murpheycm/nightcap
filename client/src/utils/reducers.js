@@ -1,25 +1,17 @@
 import {
-    ADD_USER,
     UPDATE_USER,
-    ADD_BUSINESS,
     UPDATE_BUSINESS,
-    REMOVE_BUSINESS,
     LIKE_BUSINESS,
     UNLIKE_BUSINESS,
-    ADD_PROFILE,
     UPDATE_PROFILE,
-    ADD_COCKTAIL,
     UPDATE_COCKTAIL,
-    REMOVE_COCKTAIL,
-    ADD_REVIEW,
     UPDATE_REVIEW,
-    REMOVE_REVIEW,
     ADD_COMMENT,
     UPDATE_COMMENT,
-    REMOVE_COMMENT,
     ADD_CHEERS,
     REMOVE_CHEERS,
     ADD_TAG,
+    ADD_ALLERGEN,
     ADD_FRIEND,
     ACCEPT_FRIEND_REQUEST,
     REMOVE_FRIEND,
@@ -27,26 +19,12 @@ import {
   
   export const reducer = (state, action) => {
     switch (action.type) {
-      case ADD_USER:
-        return {
-         ...state,
-          // Add a new user to the users array
-          users: [...state.users, action.user],
-        };
-
       case UPDATE_USER:
         return{
           ...state,
           users: state.users.map(user =>
             user.id === action.user.id ? action.user : user
           ),
-        };
-
-      case ADD_BUSINESS:
-        return {
-         ...state,
-          // Add a new business to the businesses array
-          businesses: [...state.businesses, action.business],
         };
 
       case UPDATE_BUSINESS:
@@ -57,12 +35,6 @@ import {
             business.id === action.business.id? action.business : business
           ),
         };
-      
-        case REMOVE_BUSINESS:
-          return {
-              ...state,
-              businesses: state.businesses.filter(business => business.id !== action.businessId),
-          };
 
       case LIKE_BUSINESS:
         return {
@@ -80,13 +52,6 @@ import {
           businesses: state.businesses.map(business =>
             business.id === action.business.id ? action.business : business
           ),
-        };
-      
-      case ADD_PROFILE:
-        return {
-         ...state,
-          // Add a new profile to the profiles array
-          profiles: [...state.profiles, action.profile],
         };
 
       case UPDATE_PROFILE:
@@ -113,13 +78,6 @@ import {
           ),
         };
 
-      case REMOVE_COMMENT:
-        return {
-          ...state,
-          // Remove a comment from the comments array
-          comments: state.comments.filter(comment => comment.id !== action.commentId),
-        };
-  
       case ADD_CHEERS:
         return {
           ...state,
@@ -134,13 +92,6 @@ import {
           reactions: state.reactions.filter(cheers => cheers.id !== action.cheersId),
         };
 
-      case ADD_REVIEW:
-        return {
-          ...state,
-          // Add a new review to the reviews array
-          reviews: [...state.reviews, action.review],
-        };
-
       case UPDATE_REVIEW:
         return {
           ...state,
@@ -149,21 +100,7 @@ import {
             review.id === action.review.id ? action.review : review
           ),
         };
-        
-      case REMOVE_REVIEW:
-        return {
-          ...state,
-          // Remove a review from the reviews array
-          reviews: state.reviews.filter(review => review.id !== action.reviewId),
-        };  
 
-      case ADD_COCKTAIL:
-        return {
-          ...state,
-          // Add a new cocktail to the cocktails array
-          cocktails: [...state.cocktails, action.cocktail],
-        };
-      
       case UPDATE_COCKTAIL:
         return {
           ...state,
@@ -172,19 +109,19 @@ import {
             cocktail.id === action.cocktail.id ? action.cocktail : cocktail
           ), 
         };
-  
-      case REMOVE_COCKTAIL:
-        return {
-          ...state,
-          // Remove a cocktail from the cocktails array
-          cocktails: state.cocktails.filter(cocktail => cocktail.id !== action.cocktailId),
-        };
 
       case ADD_TAG:
         return {
          ...state,
           // Add a new tag to the tags array
           tags: [...state.tags, action.tag],
+        };
+
+      case ADD_ALLERGEN:
+        return {
+          ...state,
+          // Add a new allergen to the allergens array
+          allergens: [...state.allergens, action.allergen]
         };
 
       case ADD_FRIEND:
