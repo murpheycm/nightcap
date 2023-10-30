@@ -41,10 +41,11 @@ function UploadCocktail() {
             userId,
           },
         });
-        console.log(data);
+  
         if (data && data.addAllergen) {
           const newAllergenData = data.addAllergen;
-          updateAllergens(newAllergenData);
+          const updatedAllergens = [...cocktailData.allergens, newAllergenData._id];
+          setCocktailData({ ...cocktailData, allergens: updatedAllergens });
           clearNewAllergenField();
         } else {
           console.error("Error adding allergen");
@@ -64,10 +65,11 @@ function UploadCocktail() {
             userId,
           },
         });
-        console.log(data);
+  
         if (data && data.addTag) {
           const newTagData = data.addTag;
-          updateTags(newTagData);
+          const updatedTags = [...cocktailData.tags, newTagData._id];
+          setCocktailData({ ...cocktailData, tags: updatedTags });
           clearNewTagField();
         } else {
           console.error("Error adding tag");
@@ -107,31 +109,34 @@ function UploadCocktail() {
 
   const { loading: allergensLoading, data: allergensData, error: allergensError } = useQuery(GET_ALLERGENS);
   const { loading: tagsLoading, data: tagsData, error: tagsError } = useQuery(GET_TAGS);
+
+  useEffect(() => {
+    console.log("Allergens Data:", allergensData);
+  
+    if (!allergensLoading && !allergensError) {
+      if (allergensData && allergensData.allergens.length > 0) { // Updated this line
+        const allergenData = allergensData.allergens.map((allergen) => ({
+          value: allergen._id,
+          label: allergen.name,
+        }));
+        setAvailableAllergens(allergenData);
+      }
+    }
+  }, [allergensData, allergensError, allergensLoading]);
   
   useEffect(() => {
-      console.log("Allergens Data:", allergensData);
-      console.log("Tags Data:", tagsData);
-      
-      if (!allergensLoading && !allergensError) {
-          if (allergensData && allergensData.availableAllergens.length > 0) {
-              const allergenData = allergensData.availableAllergens.map((allergen) => ({
-                  value: allergen._id,
-                  label: allergen.name,
-              }));
-              setAvailableAllergens(allergenData);
-          }
-      }
+    console.log("Tags Data:", tagsData);
   
-      if (!tagsLoading && !tagsError) {
-          if (tagsData && tagsData.availableTags.length > 0) {
-              const tagData = tagsData.availableTags.map((tag) => ({
-                  value: tag._id,
-                  label: tag.name,
-              }));
-              setAvailableTags(tagData);
-          }
+    if (!tagsLoading && !tagsError) {
+      if (tagsData && tagsData.tags.length > 0) { // Updated this line
+        const tagData = tagsData.tags.map((tag) => ({
+          value: tag._id,
+          label: tag.name,
+        }));
+        setAvailableTags(tagData);
       }
-  }, [allergensData, tagsData, allergensLoading, tagsLoading, allergensError, tagsError]);
+    }
+  }, [tagsLoading, tagsData, tagsError]);
 
   const handleCocktailDataChange = (e) => {
     const { name, value } = e.target;
@@ -238,12 +243,10 @@ function UploadCocktail() {
             <div>
                 <label>Allergens</label>
                 <Select
-                isMulti
-                options={availableAllergens}
-                value={availableAllergens && cocktailData.allergens ? 
-                    availableAllergens.filter((allergen) => 
-                    cocktailData.allergens.includes(allergen.value)) : null}
-                onChange={handleAllergensChange}
+                    isMulti
+                    options={availableAllergens}
+                    value={cocktailData.allergens}
+                    onChange={(selectedOptions) => handleAllergensChange(selectedOptions)}
                 />
                 <input
                     type="text"
@@ -256,12 +259,10 @@ function UploadCocktail() {
             <div>
                 <label>Select Tags for your cocktail</label>
                 <Select
-                isMulti
-                options={availableTags}
-                value={availableTags && cocktailData.tags ? 
-                    availableTags.filter((tag) => 
-                    cocktailData.tags.includes(tag.value)) : null}
-                onChange={handleTagsChange}
+                    isMulti
+                    options={availableTags}
+                    value={cocktailData.tags}
+                    onChange={(selectedOptions) => handleTagsChange(selectedOptions)}
                 />
                 <input
                     type="text"

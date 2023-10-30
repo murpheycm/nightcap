@@ -4,6 +4,7 @@ const Cocktail = require('./Cocktail'); // Import the Cocktail model
 const allergenSchema = new Schema({
     name: {
         type: String,
+        unique: true,
         required: true,
     },
 });

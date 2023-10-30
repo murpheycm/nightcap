@@ -4,6 +4,7 @@ const Cocktail = require('./Cocktail'); // Import the Cocktail model
 const tagSchema = new Schema({
     name: {
         type: String,
+        unique: true,
         required: true,
     },
 });
