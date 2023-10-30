@@ -1,91 +1,151 @@
 import {
-    UPDATE_PRODUCTS,
-    ADD_TO_CART,
-    UPDATE_CART_QUANTITY,
-    REMOVE_FROM_CART,
-    ADD_MULTIPLE_TO_CART,
-    UPDATE_CATEGORIES,
-    UPDATE_CURRENT_CATEGORY,
-    CLEAR_CART,
-    TOGGLE_CART,
-  } from './actions';
+    UPDATE_USER,
+    UPDATE_BUSINESS,
+    LIKE_BUSINESS,
+    UNLIKE_BUSINESS,
+    UPDATE_PROFILE,
+    UPDATE_COCKTAIL,
+    UPDATE_REVIEW,
+    ADD_COMMENT,
+    UPDATE_COMMENT,
+    ADD_CHEERS,
+    REMOVE_CHEERS,
+    ADD_TAG,
+    ADD_ALLERGEN,
+    ADD_FRIEND,
+    ACCEPT_FRIEND_REQUEST,
+    REMOVE_FRIEND,
+  } from './action';
   
-  // The reducer is a function that accepts the current state and an action. It returns a new state based on that action.
   export const reducer = (state, action) => {
     switch (action.type) {
-      // Returns a copy of state with an update products array. We use the action.products property and spread it's contents into the new array.
-      case UPDATE_PRODUCTS:
+      case UPDATE_USER:
+        return{
+          ...state,
+          users: state.users.map(user =>
+            user.id === action.user.id ? action.user : user
+          ),
+        };
+
+      case UPDATE_BUSINESS:
         return {
           ...state,
-          products: [...action.products],
+          // Update a business in the businesses array
+          businesses: state.businesses.map(business =>
+            business.id === action.business.id? action.business : business
+          ),
         };
-  
-      case ADD_TO_CART:
+
+      case LIKE_BUSINESS:
         return {
           ...state,
-          cartOpen: true,
-          cart: [...state.cart, action.product],
+          // Update the liked status of a business
+          businesses: state.businesses.map(business =>
+            business.id === action.business.id? action.business : business
+          ),
         };
-      case ADD_MULTIPLE_TO_CART:
+
+      case UNLIKE_BUSINESS:
         return {
           ...state,
-          cart: [...state.cart, ...action.products],
+          // Update the liked status of a business
+          businesses: state.businesses.map(business =>
+            business.id === action.business.id ? action.business : business
+          ),
         };
-      // Returns a copy of state, sets the cartOpen to true and maps through the items in the cart.
-      // If the item's `id` matches the `id` that was provided in the action.payload, we update the purchase quantity.
-      case UPDATE_CART_QUANTITY:
+
+      case UPDATE_PROFILE:
+        return {
+          // Update a profile in the profiles array
+          profiles: state.profiles.map(profile =>
+            profile.id === action.profile.id? action.profile : profile
+          ),
+        };
+
+      case ADD_COMMENT:
         return {
           ...state,
-          cartOpen: true,
-          cart: state.cart.map((product) => {
-            if (action._id === product._id) {
-              product.purchaseQuantity = action.purchaseQuantity;
-            }
-            return product;
-          }),
+          // Add a new comment to the comments array
+          comments: [...state.comments, action.comment],
         };
-  
-      // First we iterate through each item in the cart and check to see if the `product._id` matches the `action._id`
-      // If so, we remove it from our cart and set the updated state to a variable called `newState`
-      case REMOVE_FROM_CART:
-        let newState = state.cart.filter((product) => {
-          return product._id !== action._id;
-        });
-  
-        // Then we return a copy of state and check to see if the cart is empty.
-        // If not, we set the cartOpen status to  `true`. Then we return an updated cart array set to the value of `newState`.
+
+      case UPDATE_COMMENT:
         return {
           ...state,
-          cartOpen: newState.length > 0,
-          cart: newState,
+          // Update a comment in the comments array
+          comments: state.comments.map(comment =>
+            comment.id === action.comment.id ? action.comment : comment
+          ),
         };
-  
-      case CLEAR_CART:
+
+      case ADD_CHEERS:
         return {
           ...state,
-          cartOpen: false,
-          cart: [],
-        };
-  
-      case TOGGLE_CART:
+          // Add a new cheer to the reactions array
+          reactions: [...state.reactions, action.cheers],
+        };      
+    
+      case REMOVE_CHEERS:
         return {
           ...state,
-          cartOpen: !state.cartOpen,
+           // Remove a cheer from the reactions array
+          reactions: state.reactions.filter(cheers => cheers.id !== action.cheersId),
         };
-  
-      case UPDATE_CATEGORIES:
+
+      case UPDATE_REVIEW:
         return {
           ...state,
-          categories: [...action.categories],
+          // Update a review in the reviews array
+          reviews: state.reviews.map(review =>
+            review.id === action.review.id ? action.review : review
+          ),
         };
-  
-      case UPDATE_CURRENT_CATEGORY:
+
+      case UPDATE_COCKTAIL:
         return {
           ...state,
-          currentCategory: action.currentCategory,
+          // Update a cocktail in the cocktails array
+          cocktails: state.cocktails.map(cocktail =>
+            cocktail.id === action.cocktail.id ? action.cocktail : cocktail
+          ), 
         };
-  
-      // Return the state as is in the event that the `action.type` passed to our reducer was not accounted for by the developers
+
+      case ADD_TAG:
+        return {
+         ...state,
+          // Add a new tag to the tags array
+          tags: [...state.tags, action.tag],
+        };
+
+      case ADD_ALLERGEN:
+        return {
+          ...state,
+          // Add a new allergen to the allergens array
+          allergens: [...state.allergens, action.allergen]
+        };
+
+      case ADD_FRIEND:
+        return {
+        ...state,
+          // Add a new friend to the friends array
+          friends: [...state.friends, action.friend],
+        };
+
+      case ACCEPT_FRIEND_REQUEST:
+        return {
+          ...state,
+          // Update the status of a friend request to "accepted"
+          friends: state.friends.map(friend =>
+            friend.id === action.friend.id ? { ...friend, status: 'accepted' } : friend
+          ),
+        };
+      
+      case REMOVE_FRIEND:
+        return {
+         ...state,
+          // Remove a friend from the friends array
+          friends: state.friends.filter(friend => friend.id!== action.friendId),
+        };
       // This saves us from a crash.
       default:
         return state;

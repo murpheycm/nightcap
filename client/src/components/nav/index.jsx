@@ -1,5 +1,6 @@
 import Auth from "../../utils/auth";
 import { Link } from "react-router-dom";
+import MainSearch from "../MainSearch";
 
 function Nav() {
 
@@ -8,21 +9,33 @@ function Nav() {
       return (
         <ul className="flex-row">
           <li className="mx-1">
-            <Link to="/orderHistory">
-              Order History
+            <Link to="/home">
+              NIGHTCAP
             </Link>
           </li>
           <li className="mx-1">
-            {/* this is not using the Link component to logout or user and then refresh the application to the start */}
+            <Link to="/profile">
+              <UserProfilePicture user={currentUser} />
+            </Link>
+          </li>
+          <li className="mx-1">
             <a href="/" onClick={() => Auth.logout()}>
               Logout
             </a>
+          </li>
+          <li className="mx-1">
+            <MainSearch />
           </li>
         </ul>
       );
     } else {
       return (
         <ul className="flex-row">
+          <li className="mx-1">
+            <Link to="/home">
+              NIGHTCAP
+            </Link>
+          </li>
           <li className="mx-1">
             <Link to="/signup">
               Signup
@@ -33,6 +46,9 @@ function Nav() {
               Login
             </Link>
           </li>
+          <li className="mx-1">
+            <MainSearch />
+          </li>
         </ul>
       );
     }
@@ -40,13 +56,6 @@ function Nav() {
 
   return (
     <header className="flex-row px-1">
-      <h1>
-        <Link to="/">
-          <span role="img" aria-label="shopping bag">🛍️</span>
-          -Shop-Shop
-        </Link>
-      </h1>
-
       <nav>
         {showNavigation()}
       </nav>

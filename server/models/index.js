@@ -1,6 +1,13 @@
 const User = require('./User');
-const Comment = require('./Comment');
+const Business = require('./Business');
+const Profile = require('./Profile');
+const Review = require('./Review');
 const Cocktail = require('./Cocktail');
-const Reaction = require('./Reaction');
+const Tag = require('./Tag');
+const Comment = require('./Comment');
+const Cheers = require('./Cheers');
+const Friends = require('./Friends');
+const Badge = require('./Badge');
+const Allergen = require('./Allergen');
 
-module.exports = { User, Comment, Cocktail, Reaction };
+module.exports = { User, Profile, Review, Cocktail, Tag, Comment, Cheers, Friends, Business, Badge, Allergen };
