@@ -1,7 +1,7 @@
 import React from "react";
-import { BrowserRouter } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { About, Hero, Navbar, Badges } from '../components';
+
 
 function LandingPage() {
   return (
