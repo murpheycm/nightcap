@@ -49,7 +49,7 @@ const Navbar = () => {
             <ul className='list-none hidden sm:flex flex-row gap-10'>
               <li
                 className='text-secondary hover:text-white text-[18px] font-medium cursor-pointer'>
-                <Link to="/profile">
+                <Link to="/user/:id">
                   Profile
                   {/* <UserProfilePicture user={currentUser} /> */}
                 </Link>
@@ -69,7 +69,7 @@ const Navbar = () => {
                 <ul className='list-none flex justify-end items-start flex-col gap-4'>
                   <li
                     className='text-secondary hover:text-white text-[16px] font-medium cursor-pointer'>
-                    <Link to="/profile">
+                    <Link to="/user/:id">
                       Profile
                     </Link>
                   </li>
